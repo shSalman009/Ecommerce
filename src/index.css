@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* these classes to customize the behavior of react slick carousel */
+.slick-prev {
+  left: 3% !important;
+  z-index: 1;
+}
+.slick-next {
+  right: 3% !important;
+  z-index: 1;
+}
+
+/* Customize react-slick classes */
+
+.slick-dots li {
+  width: 60px;
+  height: 60px;
+}
+.slick-dots {
+  bottom: -50px;
+}
+.slick-dots > .slick-active {
+  border: 1px solid gray;
+}
