@@ -5,7 +5,6 @@ import Layout from "./components/Layout";
 import Loading from "./components/Loading";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
-import { useGetProductsQuery } from "./features/products/productsApi";
 import useAuthcheck from "./hooks/useAuthcheck";
 import BlogPostPage from "./pages/BlogPostPage";
 import CategoryPage from "./pages/CategoryPage";
@@ -22,17 +21,7 @@ import SingleProductPage from "./pages/singleProduct/SingleProductPage";
 export default function App() {
   const authCheck = useAuthcheck();
 
-  // load products initially
-  const { data, isLoading, isSuccess } = useGetProductsQuery();
-
-  // loading text for loading screen
-  const text = !authCheck
-    ? "Authenticating"
-    : isLoading
-    ? "Products Fetching"
-    : "Loading";
-
-  return authCheck && isSuccess ? (
+  return authCheck ? (
     <BrowserRouter>
       <Toaster />
 
@@ -64,6 +53,6 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   ) : (
-    <Loading text={text} />
+    <Loading />
   );
 }

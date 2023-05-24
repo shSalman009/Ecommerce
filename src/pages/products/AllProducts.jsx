@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 import Product from "../../components/ProductCard";
 import { useGetProductsQuery } from "../../features/products/productsApi";
 
@@ -14,7 +15,7 @@ export default function AllProducts() {
 
   // content to be displayed
   const content = isLoading ? (
-    <div>Loading...</div>
+    <Loading />
   ) : isError ? (
     <div>{error?.data}</div>
   ) : products?.length && categories?.length ? (

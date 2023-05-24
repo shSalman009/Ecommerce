@@ -9,9 +9,12 @@ import Topbar from "./Topbar";
 export default function Layout() {
   return (
     <>
-      <Topbar />
-      <Header />
-      <Navbar />
+      <div className="fixed top-0 inset-x-0 z-50">
+        <Topbar />
+        <Header />
+        <Navbar />
+      </div>
+      <div className="h-[157px]"></div>
       <Breadcrumb />
       <Outlet />
       <Footer />

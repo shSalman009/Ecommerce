@@ -26,11 +26,14 @@ export default function Description({ product }) {
   });
 
   // add to cart mutation
-  const [addToCart, { isSuccess: addedInCartSuccess }] = useAddToCartMutation();
+  const [
+    addToCart,
+    { isSuccess: addedInCartSuccess, isLoading: addingInCartLoading },
+  ] = useAddToCartMutation();
 
   const navigate = useNavigate();
   // add to cart
-  const addCart = () => {
+  const handleAddToCart = () => {
     if (!auth?.user?.id) {
       navigate("/login");
       return;
@@ -139,7 +142,8 @@ export default function Description({ product }) {
         {/* Product is not added to cart yet */}
         {isSuccess && productInCart.length === 0 && (
           <button
-            onClick={addCart}
+            disabled={addingInCartLoading}
+            onClick={handleAddToCart}
             type="button"
             className="text-blue-700 font-medium px-4 py-2 rounded-md border-2 border-blue-700"
           >

@@ -1,9 +1,62 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  useAddToCartMutation,
+  useGetCartByIdQuery,
+} from "../features/cart/CartApi";
+import { success } from "../utils/Alert";
 
 export default function ProductCard({ product }) {
-  const { name, id, image_urls, price } = product;
+  const { name, id, image_urls, price, quantity, brand } = product;
   const url = name.replace(/\s+/g, "-").toLowerCase();
+
+  // get user from redux store
+  const auth = useSelector((state) => state.auth) || {};
+
+  // get current product from cart
+  const {
+    data: productInCart,
+    isLoading,
+    isSuccess,
+  } = useGetCartByIdQuery({
+    userId: auth?.user?.id,
+    productId: id,
+  });
+
+  // add to cart mutation
+  const [
+    addToCart,
+    { isSuccess: addedInCartSuccess, isLoading: addingInCartLoading },
+  ] = useAddToCartMutation();
+
+  const navigate = useNavigate();
+  // add to cart
+  const handleAddToCart = () => {
+    if (!auth?.user?.id) {
+      navigate("/login");
+      return;
+    }
+    const cartData = {
+      user_id: auth?.user?.id,
+      product_id: id,
+      quantity: 1,
+      available_quantity: quantity,
+      name,
+      brand,
+      price,
+      image: product?.image_urls[0],
+    };
+    addToCart(cartData);
+  };
+
+  // show success alert after adding product in cart successfully
+  useEffect(() => {
+    if (addedInCartSuccess) {
+      success("Product added to cart successfully");
+    }
+  }, [addedInCartSuccess]);
+
   return (
     <div
       key={id}
@@ -77,12 +130,27 @@ export default function ProductCard({ product }) {
           <span className="text-2xl font-semibold text-gray-900 dark:text-white">
             ${price}
           </span>
-          <a
-            href="#"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Add to cart
-          </a>
+
+          {/* Product is not added to cart yet */}
+          {isSuccess && productInCart.length === 0 && (
+            <button
+              disabled={addingInCartLoading}
+              onClick={handleAddToCart}
+              type="button"
+              className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-3 py-1.5 rounded-md"
+            >
+              Add to Cart
+            </button>
+          )}
+          {/* Product is already added in cart */}
+          {isSuccess && productInCart.length === 1 && (
+            <Link
+              to="/cart"
+              className="text-blue-700 font-medium px-3 py-1.5 rounded-md border-2 border-blue-700"
+            >
+              View In Cart
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ export default function CartItem({ item }) {
     user_id,
     product_id,
   } = item || {};
-  console.log(item);
+
   const [updateQuantity] = useUpdateQuantityMutation();
   const [removeCart] = useRemoveCartMutation();
 
