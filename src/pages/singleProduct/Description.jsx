@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useAddToCartMutation,
   useGetCartByIdQuery,
@@ -28,8 +28,13 @@ export default function Description({ product }) {
   // add to cart mutation
   const [addToCart, { isSuccess: addedInCartSuccess }] = useAddToCartMutation();
 
+  const navigate = useNavigate();
   // add to cart
   const addCart = () => {
+    if (!auth?.user?.id) {
+      navigate("/login");
+      return;
+    }
     const cartData = {
       user_id: auth?.user?.id,
       product_id: id,

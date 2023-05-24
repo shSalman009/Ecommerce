@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import CartItem from "../components/cart/CartItem";
-import CartSummery from "../components/cart/CartSummery";
-import { useGetUserCartsQuery } from "../features/cart/CartApi";
+import { useGetUserCartsQuery } from "../../features/cart/CartApi";
+import CartItem from "./CartItem";
+import CartSummery from "./CartSummery";
 
 export default function CartPage() {
   // get user from redux store

@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Product from "../../components/ProductCard";
 import { useGetProductsQuery } from "../../features/products/productsApi";
-import Product from "../common/ProductCard";
 
 const filterByCategory = (products, categories) => {
   return products.filter((product) => categories.includes(product.category_id));
 };
 
-export default function Products() {
+export default function AllProducts() {
   const { categories } = useSelector((state) => state.filter);
 
   const { data: products, isLoading, isError, error } = useGetProductsQuery();

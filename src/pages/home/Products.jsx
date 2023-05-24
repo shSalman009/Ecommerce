@@ -1,6 +1,6 @@
 import React from "react";
+import ProductCard from "../../components/ProductCard";
 import { useGetProductsQuery } from "../../features/products/productsApi";
-import ProductCard from "../common/ProductCard";
 
 export default function Products() {
   const { data: products, isLoading, isError, error } = useGetProductsQuery();

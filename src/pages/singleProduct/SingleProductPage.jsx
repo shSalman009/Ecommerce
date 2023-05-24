@@ -1,10 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import About from "../components/productView/About";
-import Carousel from "../components/productView/Carousel";
-import Description from "../components/productView/Description";
-import { useGetProductQuery } from "../features/products/productsApi";
+import { useGetProductQuery } from "../../features/products/productsApi";
+import About from "./About";
+import Carousel from "./Carousel";
+import Description from "./Description";
 
 export default function SingleProductPage() {
   const { slug } = useParams();

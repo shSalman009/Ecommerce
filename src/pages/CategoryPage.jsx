@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Loading from "../components/common/Loading";
+import Loading from "../components/Loading";
 import { useGetCategoriesQuery } from "../features/category/categoryApi";
 
 export default function CategoryPage() {

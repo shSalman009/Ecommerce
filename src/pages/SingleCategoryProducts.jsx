@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import ProductCard from "../components/common/ProductCard";
+import ProductCard from "../components/ProductCard";
 import { useGetProductsByCategoryQuery } from "../features/products/productsApi";
 
 export default function SingleCategoryProducts() {

@@ -7,12 +7,12 @@ import {
   BsTwitter,
 } from "react-icons/bs";
 import { CiLocationOn, CiMail, CiPhone } from "react-icons/ci";
-import apple_pay from "../../assets/Apple pay.png";
-import mastercard from "../../assets/Mastercard.png";
-import paypal from "../../assets/Paypal.png";
-import visa from "../../assets/Visa.png";
+import apple_pay from "../assets/Apple pay.png";
+import mastercard from "../assets/Mastercard.png";
+import paypal from "../assets/Paypal.png";
+import visa from "../assets/Visa.png";
 
-import img from "../../assets/react.svg";
+import img from "../assets/react.svg";
 
 export default function Footer() {
   return (

@@ -4,9 +4,9 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 import { MdLogout, MdOutlineFavoriteBorder } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import logo from "../../assets/react.svg";
-import { loggedOut } from "../../features/auth/authSlice";
-import { useGetUserCartsQuery } from "../../features/cart/CartApi";
+import logo from "../assets/react.svg";
+import { loggedOut } from "../features/auth/authSlice";
+import { useGetUserCartsQuery } from "../features/cart/CartApi";
 
 export default function Header() {
   const [quantity, setQuantity] = useState(0);

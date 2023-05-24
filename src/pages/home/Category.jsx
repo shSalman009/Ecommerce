@@ -2,9 +2,8 @@ import React from "react";
 import { ImArrowRight2 } from "react-icons/im";
 import { Link } from "react-router-dom";
 import img from "../../assets/1.png";
-
+import Loading from "../../components/Loading";
 import { useGetCategoriesQuery } from "../../features/category/categoryApi";
-import Loading from "../common/Loading";
 
 export default function Category() {
   const {

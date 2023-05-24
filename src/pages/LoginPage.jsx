@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Error from "../components/common/Error";
+import Error from "../components/Error";
 import { useLoginMutation } from "../features/auth/authApi";
 
 export default function LoginPage() {
