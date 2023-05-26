@@ -24,7 +24,7 @@ export const porductsApi = apiSlice.injectEndpoints({
       query: () => `/products?discount_gte=1`,
     }),
 
-    // get a product by id
+    // get a single product by id
     getProduct: builder.query({
       query: (id) => `/products/${id}`,
     }),

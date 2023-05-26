@@ -2,7 +2,6 @@ import React from "react";
 import { ImArrowRight2 } from "react-icons/im";
 import { Link } from "react-router-dom";
 import img from "../../assets/1.png";
-import Loading from "../../components/Loading";
 import { useGetCategoriesQuery } from "../../features/category/categoryApi";
 
 export default function Category() {
@@ -15,7 +14,7 @@ export default function Category() {
 
   // content to be displayed
   const content = isLoading ? (
-    <Loading />
+    <div>Loading...</div>
   ) : isError ? (
     <div>{error?.data}</div>
   ) : (
