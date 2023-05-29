@@ -1,27 +1,39 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Loading from "../../components/Loading";
 import Product from "../../components/ProductCard";
 import { useGetProductsQuery } from "../../features/products/productsApi";
 
 const filterByCategory = (products, categories) => {
+  if (categories.length === 0) return products;
   return products.filter((product) => categories.includes(product.category_id));
+};
+const filterByBrand = (products, brands) => {
+  if (brands.length === 0) return products;
+  return products.filter((product) => brands.includes(product.brand));
+};
+
+const filterByPrice = (products, price) => {
+  if (price.min === 0 && price.max === 0) return products;
+  return products.filter(
+    (product) => product.price >= price.min && product.price <= price.max
+  );
 };
 
 export default function AllProducts() {
-  const { categories } = useSelector((state) => state.filter);
+  const { categories, brands, price } = useSelector((state) => state.filter);
 
   const { data: products, isLoading, isError, error } = useGetProductsQuery();
 
   // content to be displayed
   const content = isLoading ? (
-    <Loading />
+    <div>Loading...</div>
   ) : isError ? (
     <div>{error?.data}</div>
-  ) : products?.length && categories?.length ? (
-    filterByCategory(products, categories).map((product) => (
-      <Product key={product.id} product={product} />
-    ))
+  ) : products?.length ? (
+    filterByPrice(
+      filterByCategory(filterByBrand(products, brands), categories),
+      price
+    ).map((product) => <Product key={product.id} product={product} />)
   ) : (
     products?.length &&
     products.map((product) => <Product key={product.id} product={product} />)

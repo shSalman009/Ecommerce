@@ -1,7 +1,7 @@
 import React from "react";
 import AllProducts from "./AllProducts";
-import Filter from "./Filter";
 import Sort from "./Sort";
+import Filter from "./filter/Filter";
 
 export default function ProductsPage() {
   return (
