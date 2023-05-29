@@ -65,7 +65,7 @@ export default function PriceFilter() {
   }, [filterPeice]);
 
   return (
-    <div className="mt-2 flex gap-2 flex-wrap">
+    <div className="mt-2 mb-4 flex gap-2 flex-wrap">
       {priceRanges.map((price) => (
         <button
           key={price.id}

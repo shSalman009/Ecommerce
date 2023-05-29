@@ -23,7 +23,7 @@ export default function Filter() {
           </button>
         </h3>
         <div
-          className={`px-4 pb-4
+          className={`px-4 mb-4
         ${
           extendedCategories
             ? "max-h-60 overflow-y-scroll custom-scrollbar"
@@ -47,7 +47,7 @@ export default function Filter() {
           </button>
         </h3>
         <div
-          className={`px-4 pb-4
+          className={`px-4 mb-4
         ${
           extendedBrands
             ? "max-h-60 overflow-y-scroll custom-scrollbar"
@@ -71,7 +71,7 @@ export default function Filter() {
           </button>
         </h3>
         <div
-          className={`px-4 pb-4
+          className={`px-4
         ${
           extendedPrice
             ? "max-h-60 overflow-y-scroll custom-scrollbar"
