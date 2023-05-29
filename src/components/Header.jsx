@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import { MdLogout, MdOutlineFavoriteBorder } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../assets/react.svg";
@@ -38,22 +38,22 @@ export default function Header() {
         <div className="flex justify-start gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center mr-10">
-            <img src={logo} className="h-8 mr-3" alt="logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-100">
-              Brand.
+            <img src={logo} className="h-8 mr-2" alt="logo" />
+            <span className="self-center text-3xl font-semibold whitespace-nowrap text-gray-100 uppercase">
+              Brand
             </span>
           </Link>
 
           {/* Search bar */}
           <form>
-            <div className="w-96">
-              <div className="flex rounded-sm overflow-hidden w-full">
+            <div className="w-[600px]">
+              <div className="flex rounded-md overflow-hidden w-full">
                 <input
                   type="text"
-                  className="w-full rounded-sm rounded-r-none p-2"
+                  className="w-full rounded-sm rounded-r-none px-2 py-2.5 focus:outline-none bg-slate-200"
                   placeholder="Search..."
                 />
-                <button className="bg-indigo-600 text-gray-100 px-6 text-sm font-medium py-2 rounded-r-sm">
+                <button className="bg-indigo-600 text-gray-100 px-6 text-base font-medium py-2 rounded-r-sm">
                   Search
                 </button>
               </div>
@@ -64,10 +64,6 @@ export default function Header() {
         {/* Add Products */}
         <div className="flex justify-end items-center gap-8 divide-x">
           <div className="flex justify-end items-center gap-4 text-2xl text-gray-100">
-            <div>
-              <MdOutlineFavoriteBorder size={30} />
-            </div>
-
             <Link to="/cart" className="relative">
               <HiOutlineShoppingCart size={30} />
 
@@ -87,23 +83,13 @@ export default function Header() {
               />
             </div>
           ) : (
-            <div className="px-4 text-sm font-medium tracking-tighter text-gray-100 flex gap-2 items-center">
+            <Link
+              to="/login"
+              className="px-4 text-sm font-medium tracking-tighter text-gray-100 flex gap-2 items-center"
+            >
               <FaRegUser size={25} />
-              <div className="flex flex-col">
-                <Link
-                  to="/login"
-                  className="hover:underline hover:text-blue-600"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="hover:underline hover:text-blue-600"
-                >
-                  Register
-                </Link>
-              </div>
-            </div>
+              <span className="inline-block text-lg">Sign In</span>
+            </Link>
           )}
         </div>
       </div>
