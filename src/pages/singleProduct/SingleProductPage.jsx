@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
+import Error from "../../components/Error";
+import Loading from "../../components/Loading";
 import { useGetProductQuery } from "../../features/products/productsApi";
 import About from "./About";
 import Carousel from "./Carousel";
@@ -25,8 +27,8 @@ export default function SingleProductPage() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
-      {!isLoading && isError && <div>{error?.data}</div>}
+      {isLoading && <Loading />}
+      {!isLoading && isError && <Error message={error?.data} />}
 
       {!isLoading && !isError && product?.id && (
         <div className="text-gray-600 body-font overflow-hidden">
