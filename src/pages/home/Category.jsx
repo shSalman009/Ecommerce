@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { ImArrowRight2 } from "react-icons/im";
 import { Link } from "react-router-dom";
 import img from "../../assets/1.png";
+import RowCardSkelton from "../../components/skelton/RowCardSkelton";
 import { useGetCategoriesQuery } from "../../features/category/categoryApi";
 
 export default function Category() {
@@ -12,9 +13,16 @@ export default function Category() {
     error,
   } = useGetCategoriesQuery();
 
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   // content to be displayed
   const content = isLoading ? (
-    <div>Loading...</div>
+    <>
+      <RowCardSkelton />
+      <RowCardSkelton />
+      <RowCardSkelton />
+      <RowCardSkelton />
+    </>
   ) : isError ? (
     <div>{error?.data}</div>
   ) : (
@@ -32,7 +40,9 @@ export default function Category() {
         >
           <img
             className="object-cover rounded-t-lg h-auto w-1/2 md:rounded-none md:rounded-l-lg"
+            style={{ display: imageLoaded ? "block" : "none" }}
             src={category.image ? category.image : img}
+            onLoad={() => setImageLoaded(true)}
             alt=""
           />
           <div className="flex flex-col justify-between p-4 leading-normal">

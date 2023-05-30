@@ -50,7 +50,7 @@ export default function PriceFilter() {
       dispatch(setPrice(value));
     }
   };
-  console.log(selected);
+
   useEffect(() => {
     priceRanges.map((price) => {
       if (

@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ListSkelton from "../../../components/skelton/ListSkelton";
 import { useGetBrandsQuery } from "../../../features/brand/brandApi";
 import { addBrand, removeBrand } from "../../../features/filter/filterSlice";
 
@@ -27,7 +28,11 @@ export default function BrandsFilter() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div>
+          <ListSkelton />
+        </div>
+      )}
       {!isLoading && isError && <div>{error?.data}</div>}
       {!isLoading && !isError && brands?.length === 0 && (
         <div>No brands found</div>

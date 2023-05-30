@@ -1,6 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Error from "../../components/Error";
+import NotFount from "../../components/NotFount";
 import Product from "../../components/ProductCard";
+import ColCardSkelton from "../../components/skelton/ColCardSkelton";
 import { useGetProductsQuery } from "../../features/products/productsApi";
 
 const filterByCategory = (products, categories) => {
@@ -24,25 +27,35 @@ export default function AllProducts() {
 
   const { data: products, isLoading, isError, error } = useGetProductsQuery();
 
-  // content to be displayed
-  const content = isLoading ? (
-    <div>Loading...</div>
-  ) : isError ? (
-    <div>{error?.data}</div>
-  ) : products?.length ? (
-    filterByPrice(
-      filterByCategory(filterByBrand(products, brands), categories),
-      price
-    ).map((product) => <Product key={product.id} product={product} />)
-  ) : (
-    products?.length &&
-    products.map((product) => <Product key={product.id} product={product} />)
-  );
-
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-      {content}
-      {content?.length === 0 && <div>No products found</div>}
-    </div>
+    <>
+      {/* Loading... */}
+      {isLoading && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {Array(15)
+            .fill("")
+            .map((_, i) => (
+              <ColCardSkelton key={i} />
+            ))}
+        </div>
+      )}
+
+      {/* Error */}
+      {isError && <Error message={error?.data} />}
+
+      {/* Not Found */}
+      {!isLoading && !isError && products?.length === 0 && <NotFount />}
+
+      {/* Products */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {!isLoading &&
+          !isError &&
+          products?.length &&
+          filterByPrice(
+            filterByCategory(filterByBrand(products, brands), categories),
+            price
+          ).map((product) => <Product key={product.id} product={product} />)}
+      </div>
+    </>
   );
 }

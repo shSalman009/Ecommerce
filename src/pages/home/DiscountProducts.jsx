@@ -1,4 +1,5 @@
 import React from "react";
+import RowCardSkelton from "../../components/skelton/RowCardSkelton";
 import { useGetDiscountProductsQuery } from "../../features/products/productsApi";
 import DiscountProductCard from "./DiscountProductCard";
 
@@ -12,7 +13,11 @@ export default function DiscountProducts() {
 
   // content to be displayed
   const content = isLoading ? (
-    <div>Loading...</div>
+    <>
+      <RowCardSkelton />
+      <RowCardSkelton />
+      <RowCardSkelton />
+    </>
   ) : isError ? (
     <div>{error?.data}</div>
   ) : (

@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ListSkelton from "../../../components/skelton/ListSkelton";
 import { useGetCategoriesQuery } from "../../../features/category/categoryApi";
 import {
   addCategory,
@@ -29,7 +30,11 @@ export default function CategoriesFilter() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div>
+          <ListSkelton />
+        </div>
+      )}
       {!isLoading && isError && <div>{error?.data}</div>}
       {!isLoading && !isError && categories?.length === 0 && (
         <div>No categories found</div>

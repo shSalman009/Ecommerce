@@ -1,4 +1,5 @@
 import React from "react";
+import ColCardSkelton from "../../components/skelton/ColCardSkelton";
 import { useGetBlogsQuery } from "../../features/blog/blogApi";
 import BlogCard from "../blogs/BlogCard";
 
@@ -12,7 +13,12 @@ export default function Blogs() {
   } = useGetBlogsQuery();
 
   const content = isLoading ? (
-    <div>Loading...</div>
+    <>
+      <ColCardSkelton />
+      <ColCardSkelton />
+      <ColCardSkelton />
+      <ColCardSkelton />
+    </>
   ) : isError ? (
     <div>{error?.data}</div>
   ) : (

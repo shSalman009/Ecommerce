@@ -1,5 +1,6 @@
 import React from "react";
 import ProductCard from "../../components/ProductCard";
+import ColCardSkelton from "../../components/skelton/ColCardSkelton";
 import { useGetProductsQuery } from "../../features/products/productsApi";
 
 export default function Products() {
@@ -7,7 +8,13 @@ export default function Products() {
 
   // content to be displayed
   const content = isLoading ? (
-    <div>Loading...</div>
+    <>
+      {Array(12)
+        .fill("")
+        .map((_, i) => (
+          <ColCardSkelton key={i} />
+        ))}
+    </>
   ) : isError ? (
     <div>{error?.data}</div>
   ) : (
