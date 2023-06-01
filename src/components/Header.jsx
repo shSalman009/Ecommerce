@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/react.svg";
 import { loggedOut } from "../features/auth/authSlice";
 import { useGetUserCartsQuery } from "../features/cart/CartApi";
+import Search from "./Search";
 
 export default function Header() {
   const [quantity, setQuantity] = useState(0);
@@ -45,20 +46,7 @@ export default function Header() {
           </Link>
 
           {/* Search bar */}
-          <form>
-            <div className="w-[600px]">
-              <div className="flex rounded-md overflow-hidden w-full">
-                <input
-                  type="text"
-                  className="w-full rounded-sm rounded-r-none px-2 py-2.5 focus:outline-none bg-slate-200"
-                  placeholder="Search..."
-                />
-                <button className="bg-indigo-600 text-gray-100 px-6 text-base font-medium py-2 rounded-r-sm">
-                  Search
-                </button>
-              </div>
-            </div>
-          </form>
+          <Search />
         </div>
 
         {/* Add Products */}

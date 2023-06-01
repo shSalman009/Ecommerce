@@ -1,6 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
 
-export const porductsApi = apiSlice.injectEndpoints({
+export const productsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // get all products
     getProducts: builder.query({
@@ -28,6 +28,11 @@ export const porductsApi = apiSlice.injectEndpoints({
     getProduct: builder.query({
       query: (id) => `/products/${id}`,
     }),
+
+    // search products by name
+    searchProducts: builder.query({
+      query: (name) => `/products?name_like=${name}`,
+    }),
   }),
 });
 
@@ -37,4 +42,5 @@ export const {
   useGetProductsByCategoryQuery,
   useGetDiscountProductsQuery,
   useGetProductQuery,
-} = porductsApi;
+  useSearchProductsQuery,
+} = productsApi;

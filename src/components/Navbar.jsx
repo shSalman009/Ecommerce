@@ -19,7 +19,7 @@ export default function Navbar() {
     <div className="bg-slate-700">
       <div className="container mx-auto px-4 flex justify-start items-center">
         {/* Dropdown */}
-        <div className="border-r border-slate-600 relative">
+        <div className="border-r border-slate-600 relative hidden">
           <button
             onClick={toggleDropdown}
             className="font-medium rounded-sm text-sm px-4 py-2.5 text-center inline-flex items-center text-slate-100 bg-transparent uppercase"

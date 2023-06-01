@@ -2,61 +2,15 @@ import React, { useState } from "react";
 import { ImArrowRight2 } from "react-icons/im";
 import { Link } from "react-router-dom";
 import img from "../../assets/1.png";
+import Error from "../../components/Error";
+import NotFound from "../../components/NotFound";
 import RowCardSkelton from "../../components/skelton/RowCardSkelton";
 import { useGetCategoriesQuery } from "../../features/category/categoryApi";
 
 export default function Category() {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    error,
-  } = useGetCategoriesQuery();
+  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
 
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  // content to be displayed
-  const content = isLoading ? (
-    <>
-      <RowCardSkelton />
-      <RowCardSkelton />
-      <RowCardSkelton />
-      <RowCardSkelton />
-    </>
-  ) : isError ? (
-    <div>{error?.data}</div>
-  ) : (
-    categories?.map((category) => {
-      const { name, id } = category;
-
-      const url = name.replace(/\s+/g, "-").toLowerCase();
-
-      return (
-        <Link
-          key={category.id}
-          to={`/${url}_${btoa(id)}`}
-          state={{ id: category.id }}
-          className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
-        >
-          <img
-            className="object-cover rounded-t-lg h-auto w-1/2 md:rounded-none md:rounded-l-lg"
-            style={{ display: imageLoaded ? "block" : "none" }}
-            src={category.image ? category.image : img}
-            onLoad={() => setImageLoaded(true)}
-            alt=""
-          />
-          <div className="flex flex-col justify-between p-4 leading-normal">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-800">
-              {category.name}
-            </h5>
-            <p className="mb-3 font-normal text-gray-700">
-              Here are the biggest enterprise technology acquisitions of 2021
-            </p>
-          </div>
-        </Link>
-      );
-    })
-  );
 
   return (
     <div className="bg-slate-100">
@@ -77,9 +31,66 @@ export default function Category() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-          {content}
-        </div>
+        {/* Categories */}
+
+        {/* Loading... */}
+        {isLoading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            <RowCardSkelton />
+            <RowCardSkelton />
+            <RowCardSkelton />
+            <RowCardSkelton />
+          </div>
+        )}
+
+        {/* Error */}
+        {!isLoading && isError && (
+          <div className="py-4">
+            <Error />
+          </div>
+        )}
+
+        {/* No categories found */}
+        {!isLoading && !isError && categories?.length === 0 && (
+          <NotFound message="No categories found!" />
+        )}
+
+        {/* Content */}
+        {!isLoading && !isError && categories?.length && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            {categories?.map((category) => {
+              const { name, id } = category;
+
+              const url = name.replace(/\s+/g, "-").toLowerCase();
+
+              return (
+                <Link
+                  key={category.id}
+                  to={`/${url}_${btoa(id)}`}
+                  state={{ id: category.id }}
+                  className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
+                >
+                  <img
+                    className="object-cover rounded-t-lg h-auto w-1/2 md:rounded-none md:rounded-l-lg"
+                    style={{ display: imageLoaded ? "block" : "none" }}
+                    src={category.image ? category.image : img}
+                    onLoad={() => setImageLoaded(true)}
+                    alt=""
+                  />
+                  <div className="flex flex-col justify-between p-4 leading-normal">
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-800">
+                      {category.name}
+                    </h5>
+                    <p className="mb-3 font-normal text-gray-700">
+                      Here are the biggest enterprise technology acquisitions of
+                      2021
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
