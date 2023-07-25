@@ -11,6 +11,9 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [terms, setTerms] = useState(false);
 
+  // error state
+  const [validationError, setValidationError] = useState(null);
+
   // register mutation
   const [register, { isLoading, isSuccess, isError, error }] =
     useRegisterMutation();
@@ -18,12 +21,17 @@ export default function RegisterPage() {
   // create a new user
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setValidationError(null);
+
     if (password !== confirmPassword) {
-      alert("Password and confirm password are not match");
+      // alert("Password and confirm password are not match");
+      setValidationError("Password and confirm password are not match");
       return;
     }
     if (!terms) {
-      alert("Please accept the terms and conditions");
+      // alert("Please accept the terms and conditions");
+      setValidationError("Please accept the terms and conditions");
       return;
     }
     register({ name, email, password, role: "user" });
@@ -33,12 +41,12 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   useEffect(() => {
     if (isSuccess) {
-      // navigate(-1);
+      navigate(-1);
     }
   }, [navigate, isSuccess]);
 
   return (
-    <div className="bg-slate-100 pt-20 pb-40">
+    <div className="bg-slate-100 sm:pt-20 sm:pb-40">
       <div className="container mx-auto px-4 flex flex-col items-center justify-center py-8 lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -146,6 +154,7 @@ export default function RegisterPage() {
                   </label>
                 </div>
               </div>
+              {validationError ? <Error message={validationError} /> : null}
               {isError && error && <Error message={error?.data} />}
               <button
                 disabled={isLoading}

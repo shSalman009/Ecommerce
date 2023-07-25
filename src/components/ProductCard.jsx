@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BsCartCheckFill, BsCartPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -6,7 +7,6 @@ import {
   useGetCartByIdQuery,
 } from "../features/cart/CartApi";
 import { success } from "../utils/Alert";
-
 export default function ProductCard({ product }) {
   const { name, id, image_urls, price, quantity, brand } = product;
   const url = name.replace(/\s+/g, "-").toLowerCase();
@@ -95,9 +95,11 @@ export default function ProductCard({ product }) {
       </Link>
       <div className="px-5 pb-5 flex flex-col">
         <Link to={`/products/${url}_${btoa(id)}`}>
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            {name.length > 30 ? name.slice(0, 30) + "..." : name}
-          </h5>
+          <div className="two-line-text">
+            <h5 className="md:text-xl sm:text-lg text-base font-semibold tracking-tight text-gray-900 dark:text-white">
+              {name}
+            </h5>
+          </div>
         </Link>
         <div className="flex items-center mt-2.5 mb-5">
           <svg
@@ -155,7 +157,7 @@ export default function ProductCard({ product }) {
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-semibold text-gray-900 dark:text-white">
+          <span className="sm:text-2xl text-xl font-semibold text-gray-900 dark:text-white">
             ${price}
           </span>
 
@@ -165,18 +167,20 @@ export default function ProductCard({ product }) {
               disabled={addingInCartLoading}
               onClick={handleAddToCart}
               type="button"
-              className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-3 py-1.5 rounded-md"
             >
-              Add to Cart
+              <span className="hidden md:block bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-3 py-1.5 rounded-md">
+                Add to Cart
+              </span>
+              <BsCartPlus size={25} className="md:hidden" />
             </button>
           )}
           {/* Product is already added in cart */}
           {isSuccess && productInCart.length === 1 && (
-            <Link
-              to="/cart"
-              className="text-blue-700 font-medium px-3 py-1.5 rounded-md border-2 border-blue-700"
-            >
-              View In Cart
+            <Link to="/cart">
+              <span className="hidden md:block text-blue-700 font-medium px-3 py-1.5 rounded-md border-2 border-blue-700">
+                View In Cart
+              </span>{" "}
+              <BsCartCheckFill size={25} className="md:hidden" />
             </Link>
           )}
         </div>

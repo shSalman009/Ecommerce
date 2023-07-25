@@ -10,7 +10,7 @@ export default function Filter() {
   const [extendedPrice, setExtendedPrice] = useState(true);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       {/* Categories */}
       <div className="bg-white rounded-md">
         <h3 className="text-lg pt-4 px-4 mb-4 font-semibold text-gray-900 uppercase flex justify-between items-center select-none">

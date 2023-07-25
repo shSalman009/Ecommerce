@@ -17,7 +17,7 @@ export default function Products() {
 
         {/* Loading... */}
         {isLoading && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 mt-4">
+          <div className="grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-4">
             {Array(12)
               .fill("")
               .map((_, i) => (
@@ -38,7 +38,7 @@ export default function Products() {
           <NotFound message="No products found!" />
         )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 mt-4">
+        <div className="grid place-items-center grid-cols-2  sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-4">
           {!isLoading &&
             !isError &&
             products?.length &&

@@ -1,69 +1,24 @@
-import React, { useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import Search from "./Search";
 
 const navLinks = ["Home", "Products", "Blogs", "Contact"];
 
-export default function Navbar() {
-  const [dropdown, setDropdown] = useState(false);
-
-  const toggleDropdown = () => {
-    setDropdown(!dropdown);
-  };
-
+export default function Navbar({ extend }) {
   const location = useLocation();
   // get first part of the url
   const path = location.pathname.split("/")[1];
 
   return (
-    <div className="bg-slate-700">
-      <div className="container mx-auto px-4 flex justify-start items-center">
-        {/* Dropdown */}
-        <div className="border-r border-slate-600 relative hidden">
-          <button
-            onClick={toggleDropdown}
-            className="font-medium rounded-sm text-sm px-4 py-2.5 text-center inline-flex items-center text-slate-100 bg-transparent uppercase"
-            type="button"
-          >
-            Dropdown button <IoIosArrowDown className="ml-10" />
-          </button>
-          {/* <!-- Dropdown menu --> */}
-          <div
-            className={`absolute inset-x-0 z-10 bg-white divide-y divide-gray-100 rounded-sm shadow w-full ${
-              dropdown ? "block" : "hidden"
-            }`}
-          >
-            <ul
-              className="py-2 text-sm text-gray-700 "
-              aria-labelledby="dropdownDefaultButton"
-            >
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Earnings
-                </a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Sign out
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
+    <div
+      className={`bg-slate-700 md:static fixed top-[68px] inset-x-0 ${
+        extend ? "block" : "md:block hidden"
+      }`}
+    >
+      <div className="container mx-auto px-4 flex md:flex-row flex-col justify-start items-center">
         {/* Nav */}
-        <div className="w-auto">
-          <ul className="font-medium flex items-center p-4 md:p-0 mt-4 flex-row md:mt-0 h-full">
+        <div className="md:w-auto w-full">
+          <ul className="font-medium flex md:items-center items-start px-0 md:py-0 py-4  md:flex-row flex-col mt-0 h-full">
             {navLinks.map((link) => {
               const isHome = path === "";
               const to = link === "Home" ? "/" : `/${link.toLowerCase()}`;
@@ -74,10 +29,13 @@ export default function Navbar() {
                   : "";
 
               return (
-                <li key={link}>
+                <li
+                  key={link}
+                  className="md:w-auto w-full md:border-none border-b border-spacing-1 border-slate-500"
+                >
                   <Link
                     to={to}
-                    className={`block py-2 px-6 text-gray-100 transition-all ${bg}`}
+                    className={`block py-2 px-6 text-gray-100 transition-all rounded-sm ${bg}`}
                   >
                     {link}
                   </Link>
@@ -87,8 +45,13 @@ export default function Navbar() {
           </ul>
         </div>
 
-        <Link className="ml-auto">
-          <span className="cursor-pointer rounded-sm py-1 px-2 font-medium text-slate-100">
+        {/* Searchbar */}
+        <div className="md:hidden w-full">
+          <Search />
+        </div>
+
+        <Link className="md:ml-auto ml-0 md:mr-0 mr-auto">
+          <span className="float-left inline-block cursor-pointer rounded-md md:my-0 my-2 md:py-1 py-2 md:px-2 px-4 font-medium text-slate-100 md:bg-transparent bg-indigo-600">
             Becoma a seller
           </span>
         </Link>

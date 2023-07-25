@@ -12,8 +12,8 @@ export default function ContactPage() {
           </p>
         </div>
 
-        <div className="flex gap-4">
-          <div className="w-1/3">
+        <div className="flex lg:flex-row flex-col gap-4">
+          <div className="lg:w-1/3 w-full">
             <h2 className="text-2xl font-medium mb-4">Points of contacts</h2>
             <div className="mb-2">
               <h4 className="text-lg font-bold text-gray-800">Brand.</h4>
@@ -44,7 +44,7 @@ export default function ContactPage() {
               </p>
             </div>
           </div>
-          <form action="#" className="w-2/3 space-y-8">
+          <form action="#" className="lg:w-2/3 w-full space-y-8">
             <div>
               <label
                 htmlFor="name"

@@ -31,7 +31,7 @@ export default function AllProducts() {
     <>
       {/* Loading... */}
       {isLoading && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid sm:place-items-stretch grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {Array(15)
             .fill("")
             .map((_, i) => (
@@ -47,7 +47,7 @@ export default function AllProducts() {
       {!isLoading && !isError && products?.length === 0 && <NotFound />}
 
       {/* Products */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         {!isLoading &&
           !isError &&
           products?.length &&

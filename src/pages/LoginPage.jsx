@@ -23,7 +23,7 @@ export default function LoginPage() {
   }, [navigate, isSuccess]);
 
   return (
-    <div className="bg-slate-100 pt-40 pb-60">
+    <div className="bg-slate-100 sm:pt-40 sm:pb-60">
       <div className="container px-4 flex flex-col items-center justify-center py-8 mx-auto lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -67,7 +67,8 @@ export default function LoginPage() {
                   required=""
                 />
               </div>
-              <div className="flex items-center justify-between">
+              {/* below feature is not implemented yet */}
+              {/* <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
@@ -93,7 +94,7 @@ export default function LoginPage() {
                 >
                   Forgot password?
                 </a>
-              </div>
+              </div> */}
 
               {isError && error && <Error message={error?.data} />}
 

@@ -35,7 +35,7 @@ export default function Category() {
 
         {/* Loading... */}
         {isLoading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
             <RowCardSkelton />
             <RowCardSkelton />
             <RowCardSkelton />
@@ -57,7 +57,7 @@ export default function Category() {
 
         {/* Content */}
         {!isLoading && !isError && categories?.length && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
             {categories?.map((category) => {
               const { name, id } = category;
 
@@ -78,12 +78,11 @@ export default function Category() {
                     alt=""
                   />
                   <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-800">
+                    <h5 className="mb-2 sm:text-2xl text-lg font-bold tracking-tight text-gray-800">
                       {category.name}
                     </h5>
-                    <p className="mb-3 font-normal text-gray-700">
-                      Here are the biggest enterprise technology acquisitions of
-                      2021
+                    <p className="sm:inline-block hidden mb-3 font-normal text-gray-700">
+                      Here is the description of the category
                     </p>
                   </div>
                 </Link>

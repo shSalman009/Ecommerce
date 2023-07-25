@@ -44,29 +44,27 @@ export default function Search() {
   }, [location]);
 
   return (
-    <div className="relative">
-      <form>
-        <div className="w-[600px]">
-          <div className="flex rounded-md overflow-hidden w-full">
-            <input
-              ref={inputRef}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                handleSearch(e.target.value);
-              }}
-              type="text"
-              className="w-full rounded-sm rounded-r-none px-2 py-2.5 focus:outline-none bg-slate-200"
-              placeholder="Search..."
-            />
-            <button className="bg-indigo-600 text-gray-100 px-6 text-base font-medium py-2 rounded-r-sm">
-              Search
-            </button>
-          </div>
+    <div className="relative w-full">
+      <div className="w-full">
+        <div className="flex rounded-md overflow-hidden w-full">
+          <input
+            ref={inputRef}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              handleSearch(e.target.value);
+            }}
+            type="text"
+            className="w-full rounded-sm rounded-r-none px-2 py-2.5 focus:outline-none bg-slate-200"
+            placeholder="Search..."
+          />
+          <button className="bg-indigo-600 text-gray-100 px-6 text-base font-medium py-2 rounded-r-sm">
+            Search
+          </button>
         </div>
-      </form>
+      </div>
 
       {/* Search Result */}
       {products && search && focused && (

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function CartSummery({ cartItems, total, price }) {
   return (
-    <div id="summary" className="w-1/4 px-8 py-10">
+    <div className="xl:w-1/4 w-full px-8 py-10">
       <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
       <div className="flex justify-between mt-10 mb-5">
         <span className="font-semibold text-sm uppercase">Items {total}</span>

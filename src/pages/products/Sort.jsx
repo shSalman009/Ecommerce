@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { BiFilterAlt } from "react-icons/bi";
 
-export default function Sort() {
+export default function Sort({ handleFilterExtend }) {
   const [extend, setExtend] = useState(false);
 
   const handleExtend = () => {
@@ -9,7 +10,12 @@ export default function Sort() {
 
   return (
     <div className="bg-white p-4 rounded-md mb-4 flex justify-between items-center">
-      <h3 className="text-lg font-semibold text-gray-900 uppercase">Sort</h3>
+      <div className="flex gap-4">
+        <h3 className="text-lg font-semibold text-gray-900 uppercase">Sort</h3>{" "}
+        <button className="lg:hidden block" onClick={handleFilterExtend}>
+          <BiFilterAlt size={25} />
+        </button>
+      </div>
 
       <div className="relative">
         <button

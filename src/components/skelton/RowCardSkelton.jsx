@@ -2,7 +2,7 @@ import React from "react";
 
 export default function RowCardSkelton() {
   return (
-    <div className="space-y-8 rounded-lg animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
+    <div className="space-y-8 rounded-lg animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center overflow-hidden">
       <div className="flex items-center justify-center w-full h-40 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
         <svg
           className="w-12 h-12 text-gray-200"

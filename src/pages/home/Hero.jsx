@@ -35,7 +35,7 @@ export default function Hero() {
     <div className="bg-white">
       <div className="container mx-auto px-4 py-10 flex">
         {/* First */}
-        <div className="w-3/12 flex flex-col space-y-4 mr-4">
+        <div className="lg:w-3/12 w-4/12 hidden sm:flex flex-col space-y-4 mr-4">
           <div className="rounded-md overflow-hidden bg-sky-300">
             <img src={headphone} alt="hero" />
           </div>
@@ -45,7 +45,7 @@ export default function Hero() {
         </div>
 
         {/* Middle */}
-        <div className="w-6/12">
+        <div className="lg:w-6/12 sm:w-8/12 w-full">
           <Slider {...settings}>
             {items.map((item) => (
               <div key={item} className="rounded-md overflow-hidden">
@@ -56,7 +56,7 @@ export default function Hero() {
         </div>
 
         {/* Last */}
-        <div className="w-3/12 flex flex-col space-y-4 ml-4">
+        <div className="w-3/12 hidden lg:flex flex-col space-y-4 ml-4">
           <div className="rounded-md overflow-hidden bg-blue-300">
             <img src={headphone} alt="hero" />
           </div>

@@ -73,10 +73,10 @@ export default function DiscountProductCard({ product }) {
   return (
     <div
       key={id}
-      className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl"
+      className="flex xl:flex-row flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:max-w-xl"
     >
       <img
-        className="object-cover rounded-t-lg h-auto w-2/5 md:rounded-none md:rounded-l-lg"
+        className="object-cover rounded-t-lg h-auto xl:w-2/5 w-full md:rounded-none md:rounded-l-lg"
         src={image_urls?.[0]}
         style={{ display: imageLoaded ? "block" : "none" }}
         onLoad={() => setImageLoaded(true)}
