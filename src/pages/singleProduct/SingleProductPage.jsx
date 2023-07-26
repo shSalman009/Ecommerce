@@ -32,14 +32,13 @@ export default function SingleProductPage() {
 
       {!isLoading && !isError && product?.id && (
         <div className="text-gray-600 body-font overflow-hidden">
-          <div className="container px-5 py-24 mx-auto">
-            <div className="lg:w-4/5 mx-auto flex flex-wrap pb-20">
+          <div className="container px-5 pb-24 mx-auto">
+            <div className="lg:w-4/5 w-full mx-auto justify-center items-center flex flex-wrap pb-20">
               <Carousel image_urls={image_urls} />
               <Description product={product} />
             </div>
             <div className="w-full flex">
               <About product={product} />
-              <div></div>
             </div>
           </div>
         </div>

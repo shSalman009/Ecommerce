@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -59,7 +58,7 @@ export default function Description({ product }) {
   }, [addedInCartSuccess]);
 
   return (
-    <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+    <div className="lg:w-1/2 w-full flex flex-col lg:items-start items-center lg:pl-10 lg:py-6 mt-20 lg:mt-0">
       <h2 className="text-sm title-font text-gray-500 tracking-widest mb-1">
         {brand}
       </h2>
@@ -127,12 +126,12 @@ export default function Description({ product }) {
         <span className="title-font font-bold text-2xl text-gray-900">
           ${price}
         </span>
-        <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+        {/* <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
           Button
         </button>
         <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
           <MdOutlineFavoriteBorder size={25} />
-        </button>
+        </button> */}
       </div>
       <div className="flex justify-start items-center gap-4 my-4">
         <button className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-4 py-2 rounded-md">

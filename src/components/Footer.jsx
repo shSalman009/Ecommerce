@@ -6,7 +6,7 @@ import {
   BsInstagram,
   BsTwitter,
 } from "react-icons/bs";
-import { CiLocationOn, CiMail, CiPhone } from "react-icons/ci";
+import { CiLocationArrow1, CiMail, CiPhone } from "react-icons/ci";
 import apple_pay from "../assets/Apple pay.png";
 import mastercard from "../assets/Mastercard.png";
 import paypal from "../assets/Paypal.png";
@@ -80,8 +80,8 @@ export default function Footer() {
           </form>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-5">
-          <div>
+        <div className="flex md:flex-row flex-col gap-6">
+          <div className="md:w-4/12 w-full">
             <a href="" className="flex items-center mb-4 sm:mb-0">
               <img src={img} className="h-8 mr-3" alt="Logo" />
               <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
@@ -90,7 +90,7 @@ export default function Footer() {
             </a>
             <div className="text-gray-300 font-medium capitalize space-y-2">
               <div className="mt-4 flex gap-2 items-start">
-                <CiLocationOn size={35} />
+                <CiLocationArrow1 size={25} />
                 <p>1234 Street Name, City Name, United States</p>
               </div>
               <div className="mt-4 flex gap-2 items-start">
@@ -149,108 +149,110 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-              Company
-            </h2>
-            <ul className="text-gray-400 dark:text-gray-400 font-medium">
-              <li className="mb-4">
-                <a href="#" className=" hover:underline">
-                  About
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Careers
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Brand Center
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Blog
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-              Help center
-            </h2>
-            <ul className="text-gray-400 dark:text-gray-400 font-medium">
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Discord Server
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Twitter
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Facebook
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Contact Us
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-              Legal
-            </h2>
-            <ul className="text-gray-400 dark:text-gray-400 font-medium">
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Privacy Policy
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Licensing
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Terms &amp; Conditions
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-              Download
-            </h2>
-            <ul className="text-gray-400 dark:text-gray-400 font-medium">
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  iOS
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Android
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  Windows
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline">
-                  MacOS
-                </a>
-              </li>
-            </ul>
+          <div className="md:w-8/12 w-full grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 lg:grid-cols-4">
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
+                Company
+              </h2>
+              <ul className="text-gray-400 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <a href="#" className=" hover:underline">
+                    About
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Careers
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Brand Center
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Blog
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
+                Help center
+              </h2>
+              <ul className="text-gray-400 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Discord Server
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Twitter
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Facebook
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Contact Us
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
+                Legal
+              </h2>
+              <ul className="text-gray-400 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Licensing
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Terms &amp; Conditions
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
+                Download
+              </h2>
+              <ul className="text-gray-400 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    iOS
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Android
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    Windows
+                  </a>
+                </li>
+                <li className="mb-4">
+                  <a href="#" className="hover:underline">
+                    MacOS
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -260,8 +262,8 @@ export default function Footer() {
         <div className="sm:flex sm:items-center sm:justify-between pb-4">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2023{" "}
-            <a href="https://flowbite.com/" className="hover:underline">
-              Flowbite™
+            <a href="https://shahsalmanahmed.com/" className="hover:underline">
+              Salman Ahmed
             </a>
             . All Rights Reserved.
           </span>

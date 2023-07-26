@@ -24,7 +24,7 @@ export default function Carousel({ image_urls }) {
   };
 
   return (
-    <div className="w-1/2 text-center">
+    <div className="lg:w-1/2 md:w-2/3 w-full text-center">
       <Slider {...settings}>
         {image_urls &&
           image_urls.length > 0 &&

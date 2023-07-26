@@ -4,7 +4,7 @@ export default function About({ product }) {
   const { specifications, features } = product || {};
 
   return (
-    <div className="w-4/6">
+    <div className="lg:w-4/6 w-full">
       <div className="divide-y">
         <h4 className="p-4 text-2xl font-medium">Specifications</h4>
         {specifications &&
