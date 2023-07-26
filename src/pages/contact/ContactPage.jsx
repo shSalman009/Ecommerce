@@ -1,6 +1,32 @@
-import React from "react";
+import emailjs from "@emailjs/browser";
+import React, { useRef } from "react";
+import { error, success } from "../../utils/Alert";
 
 export default function ContactPage() {
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    emailjs
+      .sendForm(
+        "service_mq6oty7",
+        "template_abhnhd8",
+        form.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        (result) => {
+          if (result.text === "OK") {
+            success("Your message has been sent successfully");
+            form.current.reset();
+          }
+        },
+        () => {
+          error("An error occurred, Please try again");
+        }
+      );
+  };
+
   return (
     <div>
       <div className="container mx-auto px-4 py-10">
@@ -44,7 +70,11 @@ export default function ContactPage() {
               </p>
             </div>
           </div>
-          <form action="#" className="lg:w-2/3 w-full space-y-8">
+          <form
+            ref={form}
+            onSubmit={sendEmail}
+            className="lg:w-2/3 w-full space-y-8"
+          >
             <div>
               <label
                 htmlFor="name"
@@ -54,6 +84,7 @@ export default function ContactPage() {
               </label>
               <input
                 type="text"
+                name="user_name"
                 id="name"
                 className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                 placeholder="John Doe"
@@ -69,6 +100,7 @@ export default function ContactPage() {
               </label>
               <input
                 type="email"
+                name="user_email"
                 id="email"
                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                 placeholder="name@flowbite.com"
@@ -85,6 +117,7 @@ export default function ContactPage() {
               <textarea
                 id="message"
                 rows="6"
+                name="message"
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Leave a comment..."
               ></textarea>

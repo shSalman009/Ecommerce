@@ -39,8 +39,8 @@ export default function Topbar({ handleNavExtended }) {
       <div className="container mx-auto flex flex-wrap items-center justify-between p-4">
         {/* Logo */}
         <Link to="/" className="flex items-center mr-10">
-          <img src={logo} className="h-8 mr-2" alt="logo" />
-          <span className="self-center text-3xl font-semibold whitespace-nowrap text-gray-100 uppercase">
+          <img src={logo} className="xs:h-8 h-6 mr-2" alt="logo" />
+          <span className="self-center xs:text-3xl text-2xl font-semibold whitespace-nowrap text-gray-100 uppercase">
             Brand
           </span>
         </Link>
@@ -51,14 +51,16 @@ export default function Topbar({ handleNavExtended }) {
         </div>
 
         {/* Add Products */}
-        <div className="flex justify-end items-center sm:gap-4 xs:gap-3 gap-2">
+        <div className="flex justify-end items-center sm:gap-4 xs:gap-2 gap-1">
           <div className="flex justify-end items-center gap-4 text-2xl text-gray-100">
             <Link to="/cart" className="relative">
-              <HiOutlineShoppingCart size={30} />
+              <HiOutlineShoppingCart size={25} />
 
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
-                {quantity}
-              </span>
+              {auth?.user ? (
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
+                  {quantity}
+                </span>
+              ) : null}
             </Link>
           </div>
           {/* User */}
@@ -75,7 +77,7 @@ export default function Topbar({ handleNavExtended }) {
               to="/login"
               className="px-4 text-sm font-medium tracking-tighter text-gray-100 flex sm:gap-2 items-center"
             >
-              <FaRegUser size={25} />
+              <FaRegUser size={20} />
               <span className="hidden sm:inline-block text-lg">Sign In</span>
             </Link>
           )}{" "}
@@ -83,7 +85,7 @@ export default function Topbar({ handleNavExtended }) {
             className="px-1 py-0.5 border rounded-md mr-2 md:hidden"
             onClick={handleNavExtended}
           >
-            <GiHamburgerMenu size={25} color="white" />
+            <GiHamburgerMenu size={20} color="white" />
           </button>
         </div>
       </div>

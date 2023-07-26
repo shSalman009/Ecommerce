@@ -8,7 +8,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const [login, { isLoading, isSuccess, isError, error }] = useLoginMutation();
-  console.log(error);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     login({ email, password });
