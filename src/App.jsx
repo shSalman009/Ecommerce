@@ -6,16 +6,16 @@ import Loading from "./components/Loading";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import useAuthcheck from "./hooks/useAuthcheck";
-import BlogPostPage from "./pages/BlogPostPage";
-import CategoryPage from "./pages/CategoryPage";
-import ContactPage from "./pages/ContactPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import SingleCategoryProducts from "./pages/SingleCategoryProducts";
 import BlogsPage from "./pages/blogs/BlogsPage";
 import CartPage from "./pages/cart/CartPage";
+import CategoryPage from "./pages/category/CategoryPage";
+import CategoryProducts from "./pages/categoryProducts/CategoryProducts";
+import ContactPage from "./pages/contact/ContactPage";
 import HomePage from "./pages/home/HomePage";
+import LoginPage from "./pages/login/LoginPage";
 import ProductsPage from "./pages/products/ProductsPage";
+import RegisterPage from "./pages/register/RegisterPage";
+import SingleBlogPage from "./pages/singleBlog/SingleBlogPage";
 import SingleProductPage from "./pages/singleProduct/SingleProductPage";
 
 export default function App() {
@@ -41,9 +41,9 @@ export default function App() {
           </Route>
 
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/:category" element={<SingleCategoryProducts />} />
+          <Route path="/:category" element={<CategoryProducts />} />
           <Route path="/blogs" element={<BlogsPage />} />
-          <Route path="/blogs/:blogId" element={<BlogPostPage />} />
+          <Route path="/blogs/:blogId" element={<SingleBlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
           <Route path="/categories" element={<CategoryPage />} />

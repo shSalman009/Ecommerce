@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Error from "../components/Error";
-import { useRegisterMutation } from "../features/auth/authApi";
+import Error from "../../components/Error";
+import { useRegisterMutation } from "../../features/auth/authApi";
 
 export default function RegisterPage() {
   // input values

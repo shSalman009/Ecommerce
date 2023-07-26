@@ -1,12 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Error from "../components/Error";
-import NotFound from "../components/NotFound";
-import ProductCard from "../components/ProductCard";
-import ColCardSkelton from "../components/skelton/ColCardSkelton";
-import { useGetProductsByCategoryQuery } from "../features/products/productsApi";
+import Error from "../../components/Error";
+import NotFound from "../../components/NotFound";
+import ProductCard from "../../components/ProductCard";
+import ColCardSkelton from "../../components/skelton/ColCardSkelton";
+import { useGetProductsByCategoryQuery } from "../../features/products/productsApi";
 
-export default function SingleCategoryProducts() {
+export default function CategoryProducts() {
   const { category } = useParams();
   // Extract the category name and ID from the URL
   const [categoryName, encodedId] = category.split("_");
@@ -19,27 +19,6 @@ export default function SingleCategoryProducts() {
     error,
   } = useGetProductsByCategoryQuery(categoryId);
 
-  const content = isLoading ? (
-    <div>Loading...</div>
-  ) : isError ? (
-    <div>{error?.data}</div>
-  ) : products?.length ? (
-    products.map((product) => (
-      <ProductCard key={product.id} product={product} />
-    ))
-  ) : (
-    <div>Products Not Found</div>
-  );
-
-  // return (
-  //   <div>
-  //     <div className="container mx-auto px-4 py-10">
-  //       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-  //         {content}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
   return (
     <>
       <div>
