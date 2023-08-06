@@ -5,12 +5,13 @@ import NotFound from "../../components/NotFound";
 import ProductCard from "../../components/ProductCard";
 import ColCardSkelton from "../../components/skelton/ColCardSkelton";
 import { useGetProductsByCategoryQuery } from "../../features/products/productsApi";
+import { decryptData } from "../../utils/Crypto";
 
 export default function CategoryProducts() {
   const { category } = useParams();
   // Extract the category name and ID from the URL
   const [categoryName, encodedId] = category.split("_");
-  const categoryId = Number(atob(encodedId));
+  const categoryId = Number(decryptData(encodedId));
 
   const {
     data: products,

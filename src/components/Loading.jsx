@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Loading({ text = "Loading" }) {
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
+    <div className="w-full h-full flex flex-col justify-center items-center p-20">
       <svg
         className="w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
         viewBox="0 0 100 101"

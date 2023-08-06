@@ -84,7 +84,7 @@ export const cartApi = apiSlice.injectEndpoints({
       },
     }),
 
-    // remove cart
+    // remove a single cart item
     removeCart: builder.mutation({
       query: ({ id, user_id, product_id }) => ({
         url: `/carts/${id}`,

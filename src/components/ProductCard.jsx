@@ -7,6 +7,7 @@ import {
   useGetCartByIdQuery,
 } from "../features/cart/CartApi";
 import { success } from "../utils/Alert";
+import { encryptData } from "../utils/Crypto";
 export default function ProductCard({ product }) {
   const { name, id, image_urls, price, quantity, brand } = product;
   const url = name.replace(/\s+/g, "-").toLowerCase();
@@ -68,7 +69,7 @@ export default function ProductCard({ product }) {
       key={id}
       className="w-full max-w-sm flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
     >
-      <Link to={`/products/${url}_${btoa(id)}`}>
+      <Link to={`/products/${url}_${encryptData(id)}`}>
         <img
           className="p-8 rounded-t-lg"
           style={{ display: imageLoaded ? "block" : "none" }}
@@ -94,7 +95,7 @@ export default function ProductCard({ product }) {
         )}
       </Link>
       <div className="px-5 pb-5 flex flex-col">
-        <Link to={`/products/${url}_${btoa(id)}`}>
+        <Link to={`/products/${url}_${encryptData(id)}`}>
           <div className="two-line-text">
             <h5 className="md:text-xl sm:text-lg text-base font-semibold tracking-tight text-gray-900 dark:text-white">
               {name}

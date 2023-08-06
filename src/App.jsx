@@ -10,13 +10,16 @@ import BlogsPage from "./pages/blogs/BlogsPage";
 import CartPage from "./pages/cart/CartPage";
 import CategoryPage from "./pages/category/CategoryPage";
 import CategoryProducts from "./pages/categoryProducts/CategoryProducts";
+import Checkout from "./pages/checkout/Checkout";
 import ContactPage from "./pages/contact/ContactPage";
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/login/LoginPage";
+import OrderPage from "./pages/order/OrderPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import SingleBlogPage from "./pages/singleBlog/SingleBlogPage";
 import SingleProductPage from "./pages/singleProduct/SingleProductPage";
+import SuccessPaymentPage from "./pages/success/SuccessPaymentPage";
 
 export default function App() {
   const authCheck = useAuthcheck();
@@ -49,6 +52,14 @@ export default function App() {
           <Route path="/categories" element={<CategoryPage />} />
 
           <Route path="/products/:slug" element={<SingleProductPage />} />
+
+          <Route path="/checkout/:id?" element={<Checkout />} />
+
+          <Route
+            path="/order-success/:orderId"
+            element={<SuccessPaymentPage />}
+          />
+          <Route path="/order" element={<OrderPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

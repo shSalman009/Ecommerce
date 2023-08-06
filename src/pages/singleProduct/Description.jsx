@@ -6,6 +6,8 @@ import {
   useGetCartByIdQuery,
 } from "../../features/cart/CartApi";
 import { success } from "../../utils/Alert";
+import { encryptData } from "../../utils/Crypto";
+import { createUrlWithTitleAndId } from "../../utils/generateUrl";
 
 export default function Description({ product }) {
   // get user from redux store
@@ -134,9 +136,12 @@ export default function Description({ product }) {
         </button> */}
       </div>
       <div className="flex justify-start items-center gap-4 my-4">
-        <button className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-4 py-2 rounded-md">
+        <Link
+          to={`/checkout/${createUrlWithTitleAndId(name, encryptData(id))}`}
+          className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-4 py-2 rounded-md"
+        >
           Buy Now
-        </button>
+        </Link>
 
         {/* Product is not added to cart yet */}
         {isSuccess && productInCart.length === 0 && (

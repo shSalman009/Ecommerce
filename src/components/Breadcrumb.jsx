@@ -22,6 +22,7 @@ export default function Breadcrumb() {
           .replace(/-/g, " ")
           .replace(/\b\w/g, (char) => char.toUpperCase());
       }
+      // console.log(crumb);
 
       return (
         <li key={crumb}>

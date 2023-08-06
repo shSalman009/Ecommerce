@@ -6,6 +6,8 @@ import {
   useGetCartByIdQuery,
 } from "../../features/cart/CartApi";
 import { success } from "../../utils/Alert";
+import { encryptData } from "../../utils/Crypto";
+import { createUrlWithTitleAndId } from "../../utils/generateUrl";
 
 export default function DiscountProductCard({ product }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -20,7 +22,6 @@ export default function DiscountProductCard({ product }) {
     description,
     discount,
   } = product;
-  const url = name.replace(/\s+/g, "-").toLowerCase();
 
   const discountPrice = price - (price * discount) / 100;
 
@@ -173,7 +174,7 @@ export default function DiscountProductCard({ product }) {
         </div>
         <div className="flex items-center justify-start gap-2">
           <Link
-            to={`/products/${url}_${btoa(id)}`}
+            to={`/products/${createUrlWithTitleAndId(name, encryptData(id))}`}
             className="text-gray-900 border bg-slate-300 hover:bg-slate-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             View

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
 import { useGetProductQuery } from "../../features/products/productsApi";
+import { decryptData } from "../../utils/Crypto";
 import About from "./About";
 import Carousel from "./Carousel";
 import Description from "./Description";
@@ -13,7 +14,8 @@ export default function SingleProductPage() {
 
   // Extract the product name and ID from the URL
   const [productName, encodedId] = slug.split("_");
-  const productId = Number(atob(encodedId));
+
+  const productId = Number(decryptData(encodedId));
 
   const {
     data: product,

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { Link, useLocation } from "react-router-dom";
 import { productsApi } from "../features/products/productsApi";
+import { encryptData } from "../utils/Crypto";
 
 export default function Search() {
   const [focused, setFocused] = useState(false);
@@ -78,7 +79,7 @@ export default function Search() {
 
               return (
                 <Link
-                  to={`/products/${url}_${btoa(id)}`}
+                  to={`/products/${url}_${encryptData(id)}`}
                   onMouseDown={(e) => e.preventDefault()}
                   key={id}
                   className="flex items-center hover:bg-gray-100 px-6 py-4 first:rounded-t-md last:rounded-b-md"

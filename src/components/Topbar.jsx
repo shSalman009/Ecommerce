@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BiShoppingBag } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
@@ -8,10 +9,12 @@ import { Link } from "react-router-dom";
 import logo from "../assets/react.svg";
 import { loggedOut } from "../features/auth/authSlice";
 import { useGetUserCartsQuery } from "../features/cart/CartApi";
+import { useGetOrdersQuery } from "../features/order/orderApi";
 import Search from "./Search";
 
 export default function Topbar({ handleNavExtended }) {
   const [quantity, setQuantity] = useState(0);
+  const [totalOrder, setTotalOrder] = useState(0);
 
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -28,6 +31,15 @@ export default function Topbar({ handleNavExtended }) {
     }
   }, [cartItems]);
 
+  // get user orders to calculate total order
+  const { data: orderItems } = useGetOrdersQuery(auth?.user?.id);
+
+  useEffect(() => {
+    if (orderItems) {
+      setTotalOrder(orderItems?.length);
+    }
+  }, [orderItems]);
+
   // user logout
   const handleLogOut = () => {
     localStorage.removeItem("auth");
@@ -40,7 +52,7 @@ export default function Topbar({ handleNavExtended }) {
         {/* Logo */}
         <Link to="/" className="flex items-center mr-10">
           <img src={logo} className="xs:h-8 h-6 mr-2" alt="logo" />
-          <span className="self-center xs:text-3xl text-2xl font-semibold whitespace-nowrap text-gray-100 uppercase">
+          <span className="xs:inline-block hidden self-center xs:text-3xl text-2xl font-semibold whitespace-nowrap text-gray-100 uppercase">
             Brand
           </span>
         </Link>
@@ -50,7 +62,7 @@ export default function Topbar({ handleNavExtended }) {
           <Search />
         </div>
 
-        {/* Add Products */}
+        {/* Cart */}
         <div className="flex justify-end items-center sm:gap-4 xs:gap-2 gap-1">
           <div className="flex justify-end items-center gap-4 text-2xl text-gray-100">
             <Link to="/cart" className="relative">
@@ -59,6 +71,15 @@ export default function Topbar({ handleNavExtended }) {
               {auth?.user ? (
                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
                   {quantity}
+                </span>
+              ) : null}
+            </Link>{" "}
+            <Link to="/order" className="relative">
+              <BiShoppingBag size={25} />
+
+              {auth?.user ? (
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
+                  {totalOrder}
                 </span>
               ) : null}
             </Link>

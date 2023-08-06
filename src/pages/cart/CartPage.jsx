@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Error from "../../components/Error";
 import Loading from "../../components/Loading";
+import NotFound from "../../components/NotFound";
 import { useGetUserCartsQuery } from "../../features/cart/CartApi";
 import CartItem from "./CartItem";
 import CartSummery from "./CartSummery";
@@ -18,16 +20,16 @@ export default function CartPage() {
     error,
     isSuccess,
   } = useGetUserCartsQuery(auth?.user?.id);
-  console.log(cartItems);
+
   // data to be displayed
   const content = isLoading ? (
     <Loading />
   ) : isError ? (
-    <div>{error?.data}</div>
+    <Error message={error?.data || "Something went wrong"} />
   ) : cartItems?.length ? (
     cartItems?.map((item) => <CartItem key={item.id} item={item} />)
   ) : (
-    <div>No items in cart</div>
+    <NotFound text="No products in cart" />
   );
 
   const [totalCartItems, setTotalCartItems] = useState(0);
@@ -82,13 +84,7 @@ export default function CartPage() {
             Continue Shopping
           </Link>
         </div>
-        {isSuccess && (
-          <CartSummery
-            cartItems={cartItems}
-            total={totalCartItems}
-            price={totalPrice}
-          />
-        )}
+        {isSuccess && <CartSummery total={totalCartItems} price={totalPrice} />}
       </div>
     </div>
   );
