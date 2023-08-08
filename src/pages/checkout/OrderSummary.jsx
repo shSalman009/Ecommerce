@@ -55,6 +55,7 @@ export default function OrderSummary({ data, price, isLoading, isSuccess }) {
             id="radio_1"
             type="radio"
             name="radio"
+            checked
           />
           <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
           <label

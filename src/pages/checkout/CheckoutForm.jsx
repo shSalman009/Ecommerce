@@ -406,7 +406,7 @@ export default function CheckoutForm({ price, data, isCart }) {
       </div>
       <button
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || data?.length === 0}
         className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white flex justify-center items-center"
       >
         {isLoading ? spinner : "Place Order"}
