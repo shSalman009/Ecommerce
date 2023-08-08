@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import Loading from "./components/Loading";
+import PageNotFound from "./components/PageNotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import useAuthcheck from "./hooks/useAuthcheck";
@@ -41,26 +42,24 @@ export default function App() {
           {/* Private Routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/order" element={<OrderPage />} />
+            <Route path="/checkout/:id?" element={<Checkout />} />{" "}
+            <Route
+              path="/order-success/:orderId"
+              element={<SuccessPaymentPage />}
+            />
           </Route>
 
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/:category" element={<CategoryProducts />} />
+          <Route path="/category/:category" element={<CategoryProducts />} />
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="/blogs/:blogId" element={<SingleBlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
-
           <Route path="/categories" element={<CategoryPage />} />
-
           <Route path="/products/:slug" element={<SingleProductPage />} />
-
-          <Route path="/checkout/:id?" element={<Checkout />} />
-
-          <Route
-            path="/order-success/:orderId"
-            element={<SuccessPaymentPage />}
-          />
-          <Route path="/order" element={<OrderPage />} />
         </Route>
+        {/* Not found route */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   ) : (

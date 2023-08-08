@@ -23,14 +23,13 @@ const orderApi = apiSlice.injectEndpoints({
       async onQueryStarted(data, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
-          console.log(result);
           if (result?.data) {
             dispatch(
               orderApi.util.updateQueryData(
                 "getOrders",
                 result.data.user_id,
                 (draft) => {
-                  draft.push(result);
+                  draft.push(result.data);
                 }
               )
             );

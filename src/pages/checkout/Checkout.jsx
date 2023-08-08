@@ -21,7 +21,7 @@ export default function Checkout() {
           isLoading={isLoading}
           isSuccess={isSuccess}
         />
-        <CheckoutForm price={price} data={data} />
+        <CheckoutForm price={price} data={data} isCart={id ? false : true} />
       </div>
     </div>
   );

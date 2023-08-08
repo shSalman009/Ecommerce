@@ -3,14 +3,11 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import {
-  useGetUserCartsQuery,
-  useRemoveCartMutation,
-} from "../../features/cart/CartApi";
+import { useRemoveCartMutation } from "../../features/cart/CartApi";
 import { useCreateOrderMutation } from "../../features/order/orderApi";
 import { error as errorAlert } from "../../utils/Alert";
 
-export default function CheckoutForm({ price, data }) {
+export default function CheckoutForm({ price, data, isCart }) {
   // get user
   const user = useSelector((state) => state.auth?.user) || null;
 
@@ -39,11 +36,6 @@ export default function CheckoutForm({ price, data }) {
   const [orderId, setorderId] = useState(null);
 
   // Queries and Mutations
-  const { data: userCarts, isSuccess: getUserCartSuccess } =
-    useGetUserCartsQuery(user?.id, {
-      skip: !user?.id,
-    });
-
   const [removeCart] = useRemoveCartMutation();
 
   const [createOrder, { isLoading, isSuccess, isError, error }] =
@@ -56,6 +48,7 @@ export default function CheckoutForm({ price, data }) {
     const id = uuidv4();
     setorderId(id);
 
+    // order object
     const order = {
       id: id,
       user_id: user?.id,
@@ -102,8 +95,8 @@ export default function CheckoutForm({ price, data }) {
   useEffect(() => {
     // remove cart and navigate to success page if order is created
     if (isSuccess) {
-      if (user?.id && getUserCartSuccess) {
-        userCarts?.map((cart) => {
+      if (isCart) {
+        data?.map((cart) => {
           removeCart({
             id: cart?.id,
             user_id: user?.id,

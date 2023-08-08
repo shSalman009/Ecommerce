@@ -49,7 +49,10 @@ export default function CategoryPage() {
                 return (
                   <Link
                     key={category.id}
-                    to={`/${createUrlWithTitleAndId(name, encryptData(id))}}`}
+                    to={`/category/${createUrlWithTitleAndId(
+                      name,
+                      encryptData(id)
+                    )}}`}
                     state={{ id: category.id }}
                     className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
                   >
