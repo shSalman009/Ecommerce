@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 
-export default function Carousel({ image_urls }) {
+export default function Carousel({ images }) {
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
   // settings for the slider
@@ -9,7 +9,7 @@ export default function Carousel({ image_urls }) {
     customPaging: function (i) {
       return (
         <a>
-          <img src={image_urls[i]} alt="" />
+          <img src={images[i]} alt="" />
         </a>
       );
     },
@@ -26,9 +26,9 @@ export default function Carousel({ image_urls }) {
   return (
     <div className="lg:w-1/2 md:w-2/3 w-full text-center">
       <Slider {...settings}>
-        {image_urls &&
-          image_urls.length > 0 &&
-          image_urls.map((url, index) => (
+        {images &&
+          images.length > 0 &&
+          images.map((url, index) => (
             <div key={index}>
               <img
                 src={url}

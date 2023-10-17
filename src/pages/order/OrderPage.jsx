@@ -10,13 +10,10 @@ export default function OrderPage() {
   const user = useSelector((state) => state.auth.user);
 
   // get user orders
-  const {
-    data: orders,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetOrdersQuery(user.id);
+  const { data, isLoading, isSuccess, isError, error } = useGetOrdersQuery(
+    user.id
+  );
+  const orders = data?.payload || [];
 
   return (
     <>
@@ -24,15 +21,16 @@ export default function OrderPage() {
         {isLoading && <Loading />}
 
         {!isLoading && isError && (
-          <Error message={error?.data || "Something went wrong"} />
+          <Error message={error?.data?.message || "Something went wrong"} />
         )}
 
         {!isLoading && !isError && orders?.length === 0 && (
-          <NotFound text="No orders" />
+          <NotFound message="No orders" />
         )}
 
         {!isLoading &&
           isSuccess &&
+          orders?.length > 0 &&
           orders?.map((order) => <OrderItem key={order.id} order={order} />)}
       </div>
     </>

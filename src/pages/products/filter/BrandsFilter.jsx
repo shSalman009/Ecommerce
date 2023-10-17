@@ -6,13 +6,8 @@ import { addBrand, removeBrand } from "../../../features/filter/filterSlice";
 
 export default function BrandsFilter() {
   // Get brands
-  const {
-    data: brands,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useGetBrandsQuery();
+  const { data, isLoading, isError, error } = useGetBrandsQuery();
+  const brands = data?.payload;
 
   const { brands: filterBrands } = useSelector((state) => state.filter);
 
@@ -35,7 +30,7 @@ export default function BrandsFilter() {
       )}
       {!isLoading && isError && <div>{error?.data}</div>}
       {!isLoading && !isError && brands?.length === 0 && (
-        <div>No brands found</div>
+        <h4 className="text-sm font-medium mb-2">There is no Brand</h4>
       )}
       {!isLoading && !isError && brands?.length > 0 && (
         <div className="mt-2">

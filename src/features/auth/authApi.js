@@ -1,40 +1,62 @@
 import { apiSlice } from "../api/apiSlice";
-import { loggedIn } from "./authSlice";
+import { loggedIn, loggedOut } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // create a new user
+    // register
     register: builder.mutation({
       query: (data) => ({
-        url: "/register",
+        url: "auth/register",
         method: "POST",
         body: data,
       }),
+    }),
+
+    // login
+    login: builder.mutation({
+      query: (data) => ({
+        url: "auth/login",
+        method: "POST",
+        body: data,
+      }),
+
       async onQueryStarted(data, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
-          localStorage.setItem("auth", JSON.stringify(result.data));
-          dispatch(loggedIn(result.data));
-        } catch (error) {}
+          const userData = result.data.payload;
+          dispatch(loggedIn(userData));
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
 
-    // login as user
-    login: builder.mutation({
-      query: (data) => ({
-        url: "/login",
+    // logout
+    logout: builder.mutation({
+      query: () => ({
+        url: "auth/logout",
         method: "POST",
-        body: data,
       }),
       async onQueryStarted(data, { dispatch, queryFulfilled }) {
         try {
-          const result = await queryFulfilled;
-          localStorage.setItem("auth", JSON.stringify(result.data));
-          dispatch(loggedIn(result.data));
-        } catch (error) {}
+          await queryFulfilled;
+          dispatch(loggedOut());
+        } catch (error) {
+          console.log(error);
+        }
       },
+    }),
+
+    // authCheck
+    authCheck: builder.query({
+      query: () => "auth/check",
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = authApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useAuthCheckQuery,
+} = authApi;

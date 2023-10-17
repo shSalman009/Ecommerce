@@ -4,21 +4,15 @@ import Error from "../../components/Error";
 import NotFound from "../../components/NotFound";
 import ProductCard from "../../components/ProductCard";
 import ColCardSkelton from "../../components/skelton/ColCardSkelton";
-import { useGetProductsByCategoryQuery } from "../../features/products/productsApi";
-import { decryptData } from "../../utils/Crypto";
+import { useGetCategoryProductsQuery } from "../../features/products/productsApi";
 
 export default function CategoryProducts() {
   const { category } = useParams();
-  // Extract the category name and ID from the URL
-  const [categoryName, encodedId] = category.split("_");
-  const categoryId = Number(decryptData(encodedId));
 
-  const {
-    data: products,
-    isLoading,
-    isError,
-    error,
-  } = useGetProductsByCategoryQuery(categoryId);
+  const { data, isLoading, isError, error } =
+    useGetCategoryProductsQuery(category);
+
+  const products = data?.payload;
 
   return (
     <>
@@ -41,16 +35,18 @@ export default function CategoryProducts() {
           )}
 
           {/* Error */}
-          {isError && <Error message={error?.data} />}
+          {isError && <Error message={error?.data?.message} />}
 
           {/* Not Found */}
-          {!isLoading && !isError && products?.length === 0 && <NotFound />}
+          {!isLoading && !isError && products?.length === 0 && (
+            <NotFound message="Products Not Found in this Category" />
+          )}
 
           {/* Content */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {!isLoading &&
               !isError &&
-              products?.length &&
+              products?.length > 0 &&
               products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

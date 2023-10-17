@@ -6,12 +6,10 @@ import Error from "../../components/Error";
 import NotFound from "../../components/NotFound";
 import RowCardSkelton from "../../components/skelton/RowCardSkelton";
 import { useGetCategoriesQuery } from "../../features/category/categoryApi";
-import { encryptData } from "../../utils/Crypto";
-import { createUrlWithTitleAndId } from "../../utils/generateUrl";
 
 export default function Category() {
-  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-
+  const { data, isLoading, isError, error } = useGetCategoriesQuery();
+  const categories = data?.payload;
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
@@ -48,7 +46,7 @@ export default function Category() {
         {/* Error */}
         {!isLoading && isError && (
           <div className="py-4">
-            <Error />
+            <Error message={error?.data?.message} />
           </div>
         )}
 
@@ -58,19 +56,16 @@ export default function Category() {
         )}
 
         {/* Content */}
-        {!isLoading && !isError && categories?.length && (
+        {!isLoading && !isError && categories?.length ? (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
             {categories?.map((category) => {
-              const { name, id } = category;
+              const { name, id, slug } = category;
 
               return (
                 <Link
-                  key={category.id}
-                  to={`category/${createUrlWithTitleAndId(
-                    name,
-                    encryptData(id)
-                  )}`}
-                  state={{ id: category.id }}
+                  key={id}
+                  to={`category/${slug}`}
+                  state={{ id }}
                   className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
                 >
                   <img
@@ -92,7 +87,7 @@ export default function Category() {
               );
             })}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

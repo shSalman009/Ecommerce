@@ -3,40 +3,35 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
   useAddToCartMutation,
-  useGetCartByIdQuery,
+  useGetUserCartsQuery,
 } from "../../features/cart/CartApi";
 import { success } from "../../utils/Alert";
-import { encryptData } from "../../utils/Crypto";
-import { createUrlWithTitleAndId } from "../../utils/generateUrl";
 
 export default function DiscountProductCard({ product }) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  const {
-    name,
-    id,
-    image_urls,
-    price,
-    quantity,
-    brand,
-    description,
-    discount,
-  } = product;
-
-  const discountPrice = price - (price * discount) / 100;
+  const { name, slug, id, images, price, description, discount } = product;
 
   // get user from redux store
-  const auth = useSelector((state) => state.auth) || {};
+  const { user } = useSelector((state) => state.auth) || {};
+  const userId = user?.id;
 
-  // get current product from cart
-  const {
-    data: productInCart,
-    isLoading,
-    isSuccess,
-  } = useGetCartByIdQuery({
-    userId: auth?.user?.id,
-    productId: id,
+  const { data, isLoading, isSuccess } = useGetUserCartsQuery(userId, {
+    skip: !userId,
   });
+
+  // check if product is already added in cart
+  const [isProductInCart, setIsProductInCart] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      const cartItems = data.payload || [];
+
+      cartItems.forEach((item) => {
+        if (item.product.id === id) {
+          setIsProductInCart(true);
+        }
+      });
+    }
+  }, [isLoading, isSuccess, id, data]);
 
   // add to cart mutation
   const [
@@ -47,19 +42,13 @@ export default function DiscountProductCard({ product }) {
   const navigate = useNavigate();
   // add to cart
   const handleAddToCart = () => {
-    if (!auth?.user?.id) {
+    if (!user?.id) {
       navigate("/login");
       return;
     }
     const cartData = {
-      user_id: auth?.user?.id,
-      product_id: id,
+      product: id,
       quantity: 1,
-      available_quantity: quantity,
-      name,
-      brand,
-      price,
-      image: product?.image_urls[0],
     };
     addToCart(cartData);
   };
@@ -71,6 +60,15 @@ export default function DiscountProductCard({ product }) {
     }
   }, [addedInCartSuccess]);
 
+  // handle image load
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const discountPrice = price - (price * discount) / 100;
+
   return (
     <div
       key={id}
@@ -78,9 +76,9 @@ export default function DiscountProductCard({ product }) {
     >
       <img
         className="object-cover rounded-t-lg h-auto xl:w-2/5 w-full md:rounded-none md:rounded-l-lg"
-        src={image_urls?.[0]}
+        src={images?.[0]}
         style={{ display: imageLoaded ? "block" : "none" }}
-        onLoad={() => setImageLoaded(true)}
+        onLoad={handleImageLoad}
         alt={name}
       />
       {!imageLoaded && (
@@ -174,13 +172,13 @@ export default function DiscountProductCard({ product }) {
         </div>
         <div className="flex items-center justify-start gap-2">
           <Link
-            to={`/products/${createUrlWithTitleAndId(name, encryptData(id))}`}
+            to={`/products/${slug}`}
             className="text-gray-900 border bg-slate-300 hover:bg-slate-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             View
           </Link>{" "}
           {/* Product is not added to cart yet */}
-          {isSuccess && productInCart.length === 0 && (
+          {!user || !isProductInCart ? (
             <button
               disabled={addingInCartLoading}
               onClick={handleAddToCart}
@@ -189,16 +187,16 @@ export default function DiscountProductCard({ product }) {
             >
               Add to Cart
             </button>
-          )}
+          ) : null}
           {/* Product is already added in cart */}
-          {isSuccess && productInCart.length === 1 && (
+          {user && isSuccess && isProductInCart ? (
             <Link
               to="/cart"
               className="text-gray-900 border bg-slate-300 hover:bg-slate-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
               View In Cart
             </Link>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

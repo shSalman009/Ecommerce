@@ -6,26 +6,64 @@ import Product from "../../components/ProductCard";
 import ColCardSkelton from "../../components/skelton/ColCardSkelton";
 import { useGetProductsQuery } from "../../features/products/productsApi";
 
-const filterByCategory = (products, categories) => {
-  if (categories.length === 0) return products;
-  return products.filter((product) => categories.includes(product.category_id));
-};
-const filterByBrand = (products, brands) => {
-  if (brands.length === 0) return products;
-  return products.filter((product) => brands.includes(product.brand));
+const filterProducts = (products, filters) => {
+  return filters.reduce((filteredProducts, filter) => {
+    return filter(filteredProducts);
+  }, products);
 };
 
-const filterByPrice = (products, price) => {
-  if (price.min === 0 && price.max === 0) return products;
-  return products.filter(
-    (product) => product.price >= price.min && product.price <= price.max
-  );
+const filterByCategory = (categories) => (products) => {
+  return categories.length === 0
+    ? products
+    : products.filter((product) => categories.includes(product.category));
+};
+
+const filterByBrand = (brands) => (products) => {
+  return brands.length === 0
+    ? products
+    : products.filter((product) =>
+        brands
+          .map((brand) => brand.toLowerCase())
+          .includes(product.brand.toLowerCase())
+      );
+};
+
+const filterByPrice = (priceRange) => (products) => {
+  return priceRange.min === 0 && priceRange.max === 0
+    ? products
+    : products.filter(
+        (product) =>
+          product.price >= priceRange.min && product.price <= priceRange.max
+      );
+};
+
+// sort by price
+const sortByPrice = (sort) => (products) => {
+  switch (sort) {
+    case "Lowest Price":
+      return [...products].sort((a, b) => a.price - b.price);
+    case "Highest Price":
+      return [...products].sort((a, b) => b.price - a.price);
+    default:
+      return products;
+  }
 };
 
 export default function AllProducts() {
-  const { categories, brands, price } = useSelector((state) => state.filter);
+  const { categories, brands, price, sort } = useSelector(
+    (state) => state.filter
+  );
 
-  const { data: products, isLoading, isError, error } = useGetProductsQuery();
+  const { data, isLoading, isError, error } = useGetProductsQuery();
+
+  const products = data?.payload;
+
+  const filteredProducts = filterProducts(products, [
+    filterByCategory(categories),
+    filterByBrand(brands),
+    filterByPrice(price),
+    sortByPrice(sort),
+  ]);
 
   return (
     <>
@@ -41,20 +79,21 @@ export default function AllProducts() {
       )}
 
       {/* Error */}
-      {isError && <Error message={error?.data} />}
+      {isError && <Error message={error?.data?.message} />}
 
       {/* Not Found */}
-      {!isLoading && !isError && products?.length === 0 && <NotFound />}
+      {!isLoading && !isError && products?.length === 0 && (
+        <NotFound message="Products Not Found" />
+      )}
 
       {/* Products */}
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         {!isLoading &&
           !isError &&
-          products?.length &&
-          filterByPrice(
-            filterByCategory(filterByBrand(products, brands), categories),
-            price
-          ).map((product) => <Product key={product.id} product={product} />)}
+          products?.length > 0 &&
+          filteredProducts.map((product) => (
+            <Product key={product.id} product={product} />
+          ))}
       </div>
     </>
   );

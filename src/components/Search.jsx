@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 
 import { Link, useLocation } from "react-router-dom";
 import { productsApi } from "../features/products/productsApi";
-import { encryptData } from "../utils/Crypto";
 
 export default function Search() {
   const [focused, setFocused] = useState(false);
@@ -27,9 +26,12 @@ export default function Search() {
   const doSearch = async (value) => {
     if (!value) return setProducts(null);
     const res = await dispatch(
-      productsApi.endpoints.searchProducts.initiate(value)
+      productsApi.endpoints.getProducts.initiate({
+        name: value,
+      })
     );
-    setProducts(res?.data);
+
+    setProducts(res?.data?.payload);
   };
 
   const handleSearch = debounceHandler(doSearch, 1000);
@@ -72,20 +74,17 @@ export default function Search() {
         <div className="absolute inset-x-0 top-12 rounded-md shadow-lg bg-white max-h-96 overflow-y-scroll custom-scrollbar">
           {products?.length ? (
             products.map((product) => {
-              const { id, image_urls, name, price, quantity, brand } =
-                product || {};
-
-              const url = name.replace(/\s+/g, "-").toLowerCase();
+              const { id, images, name, slug, price } = product || {};
 
               return (
                 <Link
-                  to={`/products/${url}_${encryptData(id)}`}
+                  to={`/products/${slug}`}
                   onMouseDown={(e) => e.preventDefault()}
                   key={id}
                   className="flex items-center hover:bg-gray-100 px-6 py-4 first:rounded-t-md last:rounded-b-md"
                 >
                   <div className="w-auto">
-                    <img className="h-20" src={image_urls[0]} alt={name} />
+                    <img className="h-20" src={images[0]} alt={name} />
                   </div>
                   <div className="flex flex-col items-start justify-center ml-4 flex-grow">
                     <span className="font-bold text-sm">

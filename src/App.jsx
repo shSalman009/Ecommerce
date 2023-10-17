@@ -23,9 +23,11 @@ import SingleProductPage from "./pages/singleProduct/SingleProductPage";
 import SuccessPaymentPage from "./pages/success/SuccessPaymentPage";
 
 export default function App() {
-  const authCheck = useAuthcheck();
+  const authChecking = useAuthcheck();
 
-  return authCheck ? (
+  return authChecking ? (
+    <Loading />
+  ) : (
     <BrowserRouter>
       <Toaster />
 
@@ -62,7 +64,5 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
-  ) : (
-    <Loading />
   );
 }

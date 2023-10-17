@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function BlogCard({ blog }) {
   const [imageLoaded, setImageLoaded] = React.useState(false);
 
-  const { id, title, content, image, created_at } = blog || {};
+  const { id, title, description, image } = blog || {};
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <div>
@@ -39,7 +39,9 @@ export default function BlogCard({ blog }) {
           </h5>
         </Link>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          {content.length > 120 ? content.slice(0, 120) + "..." : content}
+          {description.length > 120
+            ? description.slice(0, 120) + "..."
+            : description}
         </p>
         <Link
           to={`/blogs/${id}`}

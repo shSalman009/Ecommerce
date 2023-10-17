@@ -4,18 +4,18 @@ import Modal from "./Modal";
 export default function OrderItem({ order }) {
   const {
     id,
-    timestamp,
-    order_items,
-    shipping_address,
-    billing_address,
-    order_total,
-    shipping_cost,
-    order_status,
+    createdAt,
+    products,
+    shippingAddress,
+    billingAddress,
+    total,
+    shippingCost,
+    status,
   } = order || {};
-
+  // console.log("order item", order);
   const [modal, setModal] = useState(false);
 
-  const time = parseInt(timestamp);
+  const time = parseInt(createdAt);
   const date = new Date(time);
   const realTime = date.toLocaleString();
 
@@ -38,7 +38,7 @@ export default function OrderItem({ order }) {
                 Cancel Order
               </button>{" "}
               <p className="text-base font-medium leading-6 uppercase text-yellow-400">
-                {order_status}
+                {status}
               </p>
             </div>
           </div>
@@ -51,54 +51,60 @@ export default function OrderItem({ order }) {
             <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
               Customer’s Cart
             </p>
-            {order_items?.map((item, index) => (
-              <div
-                key={index}
-                className="mt-4 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
-              >
-                <div className="pb-4 w-full md:w-32">
-                  <img
-                    className="w-full hidden md:block"
-                    src={item?.image}
-                    alt="dress"
-                  />
-                  <img
-                    className="w-full md:hidden"
-                    src={item?.image}
-                    alt="dress"
-                  />
-                </div>
-                <div className="md:flex-row flex-col flex justify-between items-start w-full pb-4 space-y-4 md:space-y-0">
-                  <div className="w-full flex flex-col justify-start items-start space-y-8">
-                    <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
-                      {item?.name}
-                    </h3>
-                    <div className="flex justify-start items-start flex-col space-y-2">
-                      <p className="text-sm leading-none text-gray-800">
-                        <span className="text-gray-300">Style: </span> Italic
-                        Minimal Design
+            {products?.map((item, index) => {
+              const { name, price, images, discount } = item?.product;
+              const { quantity } = item;
+              console.log("item", item);
+
+              return (
+                <div
+                  key={index}
+                  className="mt-4 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
+                >
+                  <div className="pb-4 w-full md:w-32">
+                    <img
+                      className="w-full hidden md:block"
+                      src={images[0]}
+                      alt="dress"
+                    />
+                    <img
+                      className="w-full md:hidden"
+                      src={[0][0]}
+                      alt="dress"
+                    />
+                  </div>
+                  <div className="md:flex-row flex-col flex justify-between items-start w-full pb-4 space-y-4 md:space-y-0">
+                    <div className="w-full flex flex-col justify-start items-start space-y-8">
+                      <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
+                        {name}
+                      </h3>
+                      <div className="flex justify-start items-start flex-col space-y-2">
+                        <p className="text-sm leading-none text-gray-800">
+                          <span className="text-gray-300">Style: </span> Italic
+                          Minimal Design
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-between space-x-8 items-start w-full">
+                      <p className="text-base xl:text-lg leading-6">
+                        ${price}{" "}
+                        {discount ? (
+                          <span className="text-red-300 line-through">
+                            ${discount}.00
+                          </span>
+                        ) : null}
+                      </p>
+                      <p className="text-base xl:text-lg leading-6 text-gray-800">
+                        {quantity}
+                      </p>
+                      <p className="text-base xl:text-lg font-semibold leading-6 text-gray-800">
+                        ${price * quantity}{" "}
                       </p>
                     </div>
                   </div>
-                  <div className="flex justify-between space-x-8 items-start w-full">
-                    <p className="text-base xl:text-lg leading-6">
-                      ${item?.price}{" "}
-                      {item?.discount ? (
-                        <span className="text-red-300 line-through">
-                          ${item?.discount}.00
-                        </span>
-                      ) : null}
-                    </p>
-                    <p className="text-base xl:text-lg leading-6 text-gray-800">
-                      {item?.quantity}
-                    </p>
-                    <p className="text-base xl:text-lg font-semibold leading-6 text-gray-800">
-                      ${item?.price * item?.quantity}{" "}
-                    </p>
-                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="flex xs:flex-row flex-col xs:gap-2 gap-4 bg-gray-50 p-4">
@@ -109,8 +115,8 @@ export default function OrderItem({ order }) {
                     Shipping Address
                   </p>
                   <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                    {shipping_address?.street}, {shipping_address?.state},
-                    {shipping_address?.zip}
+                    {shippingAddress?.street}, {shippingAddress?.state},
+                    {shippingAddress?.zip}
                   </p>
                 </div>
                 <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
@@ -118,8 +124,8 @@ export default function OrderItem({ order }) {
                     Billing Address
                   </p>
                   <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                    {billing_address?.street}, {billing_address?.state},{" "}
-                    {billing_address?.zip}
+                    {billingAddress?.street}, {billingAddress?.state},{" "}
+                    {billingAddress?.zip}
                   </p>
                 </div>
               </div>
@@ -132,7 +138,7 @@ export default function OrderItem({ order }) {
                 <div className="flex justify-between w-full">
                   <p className="text-base leading-4 text-gray-800">Subtotal</p>
                   <p className="text-base leading-4 text-gray-600">
-                    ${order_total}.00
+                    ${total}.00
                   </p>
                 </div>
                 <div className="flex justify-between items-center w-full">
@@ -142,7 +148,7 @@ export default function OrderItem({ order }) {
                 <div className="flex justify-between items-center w-full">
                   <p className="text-base leading-4 text-gray-800">Shipping</p>
                   <p className="text-base leading-4 text-gray-600">
-                    ${shipping_cost}.00
+                    ${shippingCost}.00
                   </p>
                 </div>
               </div>
@@ -151,7 +157,7 @@ export default function OrderItem({ order }) {
                   Total
                 </p>
                 <p className="text-base font-semibold leading-4 text-gray-600">
-                  ${order_total + shipping_cost}.00
+                  ${total + shippingCost}.00
                 </p>
               </div>
             </div>

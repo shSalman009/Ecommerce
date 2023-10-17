@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiFilterAlt } from "react-icons/bi";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { setSort } from "../../features/filter/filterSlice";
+
+const sortOptions = ["Default", "Lowest Price", "Highest Price"];
 
 export default function Sort({ handleFilterExtend }) {
   const [extend, setExtend] = useState(false);
@@ -7,6 +12,18 @@ export default function Sort({ handleFilterExtend }) {
   const handleExtend = () => {
     setExtend(!extend);
   };
+
+  const [sortValue, setSortValue] = useState("Default");
+
+  const handleSort = (value) => {
+    setSortValue(value);
+    setExtend(false);
+  };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setSort(sortValue));
+  }, [sortValue, dispatch]);
 
   return (
     <div className="bg-white p-4 rounded-md mb-4 flex justify-between items-center">
@@ -20,25 +37,11 @@ export default function Sort({ handleFilterExtend }) {
       <div className="relative">
         <button
           onClick={handleExtend}
-          className="border font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
+          className="border font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center justify-center w-40"
           type="button"
         >
-          Dropdown button
-          <svg
-            className="w-4 h-4 ml-2"
-            aria-hidden="true"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
+          {sortValue}
+          <MdKeyboardArrowDown className="w-4 h-4 ml-2" />
         </button>
 
         <div
@@ -50,38 +53,15 @@ export default function Sort({ handleFilterExtend }) {
             className="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownDefaultButton"
           >
-            <li>
-              <a
-                href="#"
+            {sortOptions.map((value, index) => (
+              <li
+                onClick={() => handleSort(value)}
+                key={index}
                 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
               >
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Settings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Earnings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Sign out
-              </a>
-            </li>
+                {value}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

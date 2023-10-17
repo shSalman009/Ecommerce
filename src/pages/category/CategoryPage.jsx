@@ -3,16 +3,11 @@ import Error from "../../components/Error";
 import NotFound from "../../components/NotFound";
 import RowCardSkelton from "../../components/skelton/RowCardSkelton";
 import { useGetCategoriesQuery } from "../../features/category/categoryApi";
-import { encryptData } from "../../utils/Crypto";
-import { createUrlWithTitleAndId } from "../../utils/generateUrl";
 
 export default function CategoryPage() {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    error,
-  } = useGetCategoriesQuery();
+  const { data, isLoading, isError, error } = useGetCategoriesQuery();
+
+  const categories = data?.payload || [];
 
   return (
     <>
@@ -33,10 +28,12 @@ export default function CategoryPage() {
           )}
 
           {/* Error */}
-          {isError && <Error message={error?.data} />}
+          {isError && <Error message={error?.data?.message} />}
 
           {/* Not Found */}
-          {!isLoading && !isError && categories?.length === 0 && <NotFound />}
+          {!isLoading && !isError && categories?.length === 0 && (
+            <NotFound message="Categories Not Found" />
+          )}
 
           {/* Content */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
@@ -44,16 +41,12 @@ export default function CategoryPage() {
               !isError &&
               categories?.length > 0 &&
               categories?.map((category) => {
-                const { name, id } = category;
+                const { id, slug } = category;
 
                 return (
                   <Link
-                    key={category.id}
-                    to={`/category/${createUrlWithTitleAndId(
-                      name,
-                      encryptData(id)
-                    )}}`}
-                    state={{ id: category.id }}
+                    key={id}
+                    to={`/category/${slug}`}
                     className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
                   >
                     <img

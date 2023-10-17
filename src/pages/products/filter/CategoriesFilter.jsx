@@ -9,12 +9,8 @@ import {
 
 export default function CategoriesFilter() {
   // Get categories
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    error,
-  } = useGetCategoriesQuery();
+  const { data, isLoading, isError, error } = useGetCategoriesQuery();
+  const categories = data?.payload;
 
   const { categories: filterCategories } = useSelector((state) => state.filter);
 
@@ -37,7 +33,7 @@ export default function CategoriesFilter() {
       )}
       {!isLoading && isError && <div>{error?.data}</div>}
       {!isLoading && !isError && categories?.length === 0 && (
-        <div>No categories found</div>
+        <h4 className="text-sm font-medium mb-2">There is no Category</h4>
       )}
       {!isLoading && !isError && categories?.length > 0 && (
         <div className="mt-2">

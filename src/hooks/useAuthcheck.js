@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useAuthCheckQuery } from "../features/auth/authApi";
 import { loggedIn } from "../features/auth/authSlice";
 
-export default function useAuthcheck() {
-  const [authCheck, setAuthCheck] = useState(false);
+export default function useAuthCheck() {
   const dispatch = useDispatch();
+  const { data, isSuccess, isLoading } = useAuthCheckQuery();
+  const [authCompleted, setAuthCompleted] = useState(false);
 
   useEffect(() => {
-    const auth = localStorage.getItem("auth");
-
-    if (auth) {
-      dispatch(loggedIn(JSON.parse(auth)));
+    if (isSuccess) {
+      const user = data.payload;
+      dispatch(loggedIn(user));
     }
-    setAuthCheck(true);
-  }, [dispatch]);
+  }, [isSuccess, data, dispatch]);
 
-  return authCheck;
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthCompleted(true);
+    }
+  }, [isLoading]);
+
+  // Return isLoading until authCompleted is true
+  return isLoading || !authCompleted;
 }

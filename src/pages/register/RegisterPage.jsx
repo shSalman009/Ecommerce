@@ -9,7 +9,6 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [terms, setTerms] = useState(false);
 
   // error state
   const [validationError, setValidationError] = useState(null);
@@ -25,23 +24,18 @@ export default function RegisterPage() {
     setValidationError(null);
 
     if (password !== confirmPassword) {
-      // alert("Password and confirm password are not match");
       setValidationError("Password and confirm password are not match");
       return;
     }
-    if (!terms) {
-      // alert("Please accept the terms and conditions");
-      setValidationError("Please accept the terms and conditions");
-      return;
-    }
-    register({ name, email, password, role: "user" });
+
+    register({ name, email, password, confirmPassword });
   };
 
   // if register is successful, redirect to previous page
   const navigate = useNavigate();
   useEffect(() => {
     if (isSuccess) {
-      navigate(-1);
+      navigate("/login");
     }
   }, [navigate, isSuccess]);
 
@@ -126,36 +120,9 @@ export default function RegisterPage() {
                   required
                 />
               </div>
-              <div className="flex items-start">
-                <div className="flex items-center h-5">
-                  <input
-                    id="terms"
-                    name="terms"
-                    value={terms}
-                    onChange={(e) => setTerms(e.target.checked)}
-                    aria-describedby="terms"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                    required
-                  />
-                </div>
-                <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="terms"
-                    className="font-light text-gray-500 dark:text-gray-300"
-                  >
-                    I accept the{" "}
-                    <a
-                      className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                      href="#"
-                    >
-                      Terms and Conditions
-                    </a>
-                  </label>
-                </div>
-              </div>
+
               {validationError ? <Error message={validationError} /> : null}
-              {isError && error && <Error message={error?.data} />}
+              {isError && error && <Error message={error?.data?.message} />}
               <button
                 disabled={isLoading}
                 type="submit"

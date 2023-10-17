@@ -1,16 +1,19 @@
 import { apiSlice } from "../api/apiSlice";
 
+// ompleted
+// cache updated
+
 export const cartApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // get user carts
     getUserCarts: builder.query({
-      query: (id) => `/carts?user_id_like=${id}`,
+      query: (userId) => `/carts/${userId}`,
     }),
 
     // get cart by id
     getCartById: builder.query({
       query: ({ userId, productId }) =>
-        `/carts?user_id_like=${userId}&product_id_like=${productId}`,
+        `/carts?user=${userId}&product=${productId}`,
     }),
 
     // update quantity
@@ -21,20 +24,20 @@ export const cartApi = apiSlice.injectEndpoints({
         body: { quantity },
       }),
 
-      async onQueryStarted({ id, quantity }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(
+        { id, quantity },
+        { dispatch, queryFulfilled, getState }
+      ) {
         try {
           const result = await queryFulfilled;
+          const userId = getState().auth.user.id;
 
-          if (result.data) {
+          if (result.data.success && result.data.payload) {
             dispatch(
-              cartApi.util.updateQueryData(
-                "getUserCarts",
-                result.data?.user_id,
-                (draft) => {
-                  const index = draft.findIndex((cart) => cart.id === id);
-                  draft[index].quantity = quantity;
-                }
-              )
+              cartApi.util.updateQueryData("getUserCarts", userId, (draft) => {
+                const index = draft.payload.findIndex((cart) => cart.id === id);
+                draft.payload[index].quantity = quantity;
+              })
             );
           }
         } catch (err) {
@@ -51,29 +54,26 @@ export const cartApi = apiSlice.injectEndpoints({
         body: data,
       }),
       // update cache
-      async onQueryStarted(data, { dispatch, queryFulfilled }) {
+      async onQueryStarted(data, { dispatch, queryFulfilled, getState }) {
         try {
           const result = await queryFulfilled;
+          const userId = getState().auth.user.id;
 
-          if (result.data) {
+          if (result.data.success && result.data.payload) {
             dispatch(
-              cartApi.util.updateQueryData(
-                "getUserCarts",
-                result.data?.user_id,
-                (draft) => {
-                  draft.push(result.data);
-                }
-              )
+              cartApi.util.updateQueryData("getUserCarts", userId, (draft) => {
+                draft.payload.push(result.data.payload);
+              })
             );
             dispatch(
               cartApi.util.updateQueryData(
                 "getCartById",
                 {
-                  userId: result.data?.user_id,
-                  productId: result.data?.product_id,
+                  userId,
+                  productId: result.data.payload.product.id,
                 },
                 (draft) => {
-                  draft.push(result.data);
+                  draft.payload.push(result.data.payload);
                 }
               )
             );
@@ -86,41 +86,49 @@ export const cartApi = apiSlice.injectEndpoints({
 
     // remove a single cart item
     removeCart: builder.mutation({
-      query: ({ id, user_id, product_id }) => ({
-        url: `/carts/${id}`,
+      query: (cartId) => ({
+        url: `/carts/${cartId}`,
         method: "DELETE",
       }),
-      // how to get data that's being deleted?
 
-      async onQueryStarted(
-        { id, user_id, product_id },
-        { dispatch, queryFulfilled, getState }
-      ) {
+      async onQueryStarted(cartId, { dispatch, queryFulfilled, getState }) {
+        try {
+          const result = await queryFulfilled;
+          const userId = getState().auth.user.id;
+
+          if (result.data.success) {
+            dispatch(
+              cartApi.util.updateQueryData("getUserCarts", userId, (draft) => {
+                const index = draft.payload.findIndex(
+                  (cart) => cart.id === cartId
+                );
+                draft.payload.splice(index, 1);
+              })
+            );
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    }),
+
+    clearCart: builder.mutation({
+      query: (userId) => ({
+        url: `/carts/clear/${userId}`,
+        method: "DELETE",
+      }),
+
+      async onQueryStarted(userId, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
 
-          if (result.data) {
+          if (result.data.success) {
             dispatch(
-              cartApi.util.updateQueryData("getUserCarts", user_id, (draft) => {
-                const index = draft.findIndex((cart) => cart.id === id);
-                draft.splice(index, 1);
+              cartApi.util.updateQueryData("getUserCarts", userId, (draft) => {
+                return {
+                  payload: [],
+                };
               })
-            );
-
-            dispatch(
-              cartApi.util.updateQueryData(
-                "getCartById",
-                {
-                  userId: user_id,
-                  productId: product_id,
-                },
-                (draft) => {
-                  const index = draft.findIndex(
-                    (cart) => cart.id === id && cart.user_id === user_id
-                  );
-                  draft.splice(index, 1);
-                }
-              )
             );
           }
         } catch (err) {
@@ -137,4 +145,5 @@ export const {
   useUpdateQuantityMutation,
   useAddToCartMutation,
   useRemoveCartMutation,
+  useClearCartMutation,
 } = cartApi;

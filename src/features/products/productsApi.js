@@ -2,45 +2,41 @@ import { apiSlice } from "../api/apiSlice";
 
 export const productsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // get all products
+    // get products
     getProducts: builder.query({
-      query: () => `/products`,
-    }),
+      query: (queryParams) => {
+        const { name, discount } = queryParams || {};
 
-    // get cart products
-    getCartProducts: builder.query({
-      query: (ids) => {
-        return `/products?${ids.map((id) => `id=${id}`).join("&")}`;
+        const params = new URLSearchParams();
+
+        if (name) {
+          params.append("name", name);
+        }
+
+        if (discount) {
+          params.append("discount", discount);
+        }
+
+        const queryString = params.toString();
+        console.log(queryString);
+        return `/products${queryString ? `?${queryString}` : ""}`;
       },
     }),
 
-    // get products by category
-    getProductsByCategory: builder.query({
-      query: (categoryId) => `/products?category_id_like=${categoryId}`,
+    // get category products
+    getCategoryProducts: builder.query({
+      query: (categorySlug) => `/products/category/${categorySlug}`,
     }),
 
-    // get discount products
-    getDiscountProducts: builder.query({
-      query: () => `/products?discount_gte=1`,
-    }),
-
-    // get a single product by id
+    // get a single product by slug
     getProduct: builder.query({
-      query: (id) => `/products/${id}`,
-    }),
-
-    // search products by name
-    searchProducts: builder.query({
-      query: (name) => `/products?name_like=${name}`,
+      query: (productSlug) => `/products/${productSlug}`,
     }),
   }),
 });
 
 export const {
   useGetProductsQuery,
-  useGetCartProductsQuery,
-  useGetProductsByCategoryQuery,
-  useGetDiscountProductsQuery,
+  useGetCategoryProductsQuery,
   useGetProductQuery,
-  useSearchProductsQuery,
 } = productsApi;

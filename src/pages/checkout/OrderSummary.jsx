@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function OrderSummary({ data, price, isLoading, isSuccess }) {
+export default function OrderSummary({
+  data,
+  totalPrice,
+  isLoading,
+  isSuccess,
+}) {
   return (
     <div className="px-4 pt-8">
       <p className="text-xl font-medium">Order Summary</p>
@@ -10,8 +15,9 @@ export default function OrderSummary({ data, price, isLoading, isSuccess }) {
       <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
         {!isLoading &&
           isSuccess &&
-          data?.map((product) => {
-            const { id, name, quantity, brand, image } = product;
+          data?.map((item) => {
+            const { id, name, brand, images, price } = item?.product;
+            const { quantity } = item;
 
             return (
               <div
@@ -20,7 +26,7 @@ export default function OrderSummary({ data, price, isLoading, isSuccess }) {
               >
                 <img
                   className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                  src={image}
+                  src={images[0]}
                   alt=""
                 />
                 <div className="flex w-full flex-col px-4 py-4">
@@ -55,7 +61,7 @@ export default function OrderSummary({ data, price, isLoading, isSuccess }) {
             id="radio_1"
             type="radio"
             name="radio"
-            checked
+            defaultChecked
           />
           <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
           <label

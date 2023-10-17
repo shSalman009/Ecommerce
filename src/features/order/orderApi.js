@@ -2,9 +2,9 @@ import { apiSlice } from "../api/apiSlice";
 
 const orderApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // get orders
+    // get user orders
     getOrders: builder.query({
-      query: (user_id) => `/orders?user_id_like=${user_id}`,
+      query: (userId) => `/orders/user/${userId}`,
     }),
 
     // get a single order by order id
@@ -20,18 +20,16 @@ const orderApi = apiSlice.injectEndpoints({
         body: data,
       }),
 
-      async onQueryStarted(data, { dispatch, queryFulfilled }) {
+      async onQueryStarted(data, { dispatch, queryFulfilled, getState }) {
         try {
           const result = await queryFulfilled;
-          if (result?.data) {
+          const userId = getState().auth.user.id;
+
+          if (result?.data.success && result?.data.payload) {
             dispatch(
-              orderApi.util.updateQueryData(
-                "getOrders",
-                result.data.user_id,
-                (draft) => {
-                  draft.push(result.data);
-                }
-              )
+              orderApi.util.updateQueryData("getOrders", userId, (draft) => {
+                draft.payload.push(result.data.payload);
+              })
             );
           }
         } catch (error) {}
@@ -40,22 +38,23 @@ const orderApi = apiSlice.injectEndpoints({
 
     // remove an order
     removeOrder: builder.mutation({
-      query: ({ id, user_id }) => ({
-        url: `/orders/${id}`,
+      query: (orderId) => ({
+        url: `/orders/${orderId}`,
         method: "DELETE",
       }),
 
-      async onQueryStarted(
-        { id, user_id },
-        { dispatch, queryFulfilled, getState }
-      ) {
+      async onQueryStarted(orderId, { dispatch, queryFulfilled, getState }) {
         try {
           const result = await queryFulfilled;
-          if (result?.data) {
+          const userId = getState().auth.user.id;
+
+          if (result.data.success) {
             dispatch(
-              orderApi.util.updateQueryData("getOrders", user_id, (draft) => {
-                const index = draft.findIndex((order) => order.id === id);
-                draft.splice(index, 1);
+              orderApi.util.updateQueryData("getOrders", userId, (draft) => {
+                const index = draft.payload.findIndex(
+                  (order) => order.id === orderId
+                );
+                draft.payload.splice(index, 1);
               })
             );
           }

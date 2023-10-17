@@ -2,30 +2,35 @@ import { useSelector } from "react-redux";
 import { useGetUserCartsQuery } from "../features/cart/CartApi";
 import { useGetProductQuery } from "../features/products/productsApi";
 
-export default function useGetCheckoutProduct(id = null) {
+export default function useGetCheckoutProduct(productSlug = null) {
   const user = useSelector((state) => state.auth.user) || {};
 
   // get user cart products
   const {
-    data: cartProducts,
+    data: cartProductsData,
     isLoading: isCartProductsLoading,
     isSuccess: isCartProductsSuccess,
   } = useGetUserCartsQuery(user?.id, {
-    skip: id ? true : false,
+    skip: productSlug ? true : false,
+  });
+
+  const cartProducts = cartProductsData?.payload?.map((item) => {
+    const { user, id, ...rest } = item;
+    return rest;
   });
 
   // get single product
   const {
-    data: singleProduct,
-
+    data: singleProductData,
     isLoading: isSingleProductLoading,
     isSuccess: isSingleProductSuccess,
-  } = useGetProductQuery(id, {
-    skip: !id,
+  } = useGetProductQuery(productSlug, {
+    skip: !productSlug,
   });
+  const singleProduct = singleProductData?.payload;
 
   const cartProductsPrice = cartProducts?.reduce(
-    (acc, curr) => acc + curr.price * curr.quantity,
+    (acc, curr) => acc + curr.product.price * curr.quantity,
     0
   );
 
@@ -35,19 +40,17 @@ export default function useGetCheckoutProduct(id = null) {
 
   const product = [
     {
-      ...singleProduct,
+      product: singleProduct,
       quantity: 1,
-      available_quantity: singleProduct?.quantity || undefined,
-      image: singleProduct?.image_urls[0],
     },
   ];
 
-  const data = {
-    data: id ? product : cartProducts,
-    price: id ? singleProductPrice : cartProductsPrice,
-    isLoading: id ? isSingleProductLoading : isCartProductsLoading,
-    isSuccess: id ? isSingleProductSuccess : isCartProductsSuccess,
+  const result = {
+    data: productSlug ? product : cartProducts,
+    totalPrice: productSlug ? singleProductPrice : cartProductsPrice,
+    isLoading: productSlug ? isSingleProductLoading : isCartProductsLoading,
+    isSuccess: productSlug ? isSingleProductSuccess : isCartProductsSuccess,
   };
 
-  return data;
+  return result;
 }

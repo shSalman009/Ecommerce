@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useRemoveOrderMutation } from "../../features/order/orderApi";
 
-export default function Modal({ setModal, id }) {
-  // user
-  const user = useSelector((state) => state.auth.user);
-
+export default function Modal({ setModal, id: orderId }) {
   // delete mutation
   const [removeOrder, { isSuccess, isLoading, isError }] =
     useRemoveOrderMutation();
 
   const handleRemoveOrder = () => {
-    removeOrder({ id, user_id: user?.id });
+    removeOrder(orderId);
   };
 
   // close modal after successfully deleted

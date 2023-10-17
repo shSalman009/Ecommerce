@@ -13,24 +13,10 @@ export default function CartPage() {
   const { auth } = useSelector((state) => state) || {};
 
   // get user cart products from api
-  const {
-    data: cartItems,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useGetUserCartsQuery(auth?.user?.id);
-
-  // data to be displayed
-  const content = isLoading ? (
-    <Loading />
-  ) : isError ? (
-    <Error message={error?.data || "Something went wrong"} />
-  ) : cartItems?.length ? (
-    cartItems?.map((item) => <CartItem key={item.id} item={item} />)
-  ) : (
-    <NotFound text="No products in cart" />
+  const { data, isLoading, isError, error, isSuccess } = useGetUserCartsQuery(
+    auth?.user?.id
   );
+  const cartItems = data?.payload;
 
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -39,13 +25,24 @@ export default function CartPage() {
     if (cartItems) {
       const total = cartItems?.reduce((acc, item) => acc + item.quantity, 0);
       const price = cartItems?.reduce(
-        (acc, item) => acc + item.quantity * item.price,
+        (acc, item) => acc + item.quantity * item.product.price,
         0
       );
       setTotalPrice(price);
       setTotalCartItems(total);
     }
   }, [cartItems]);
+
+  // data to be displayed
+  const content = isLoading ? (
+    <Loading />
+  ) : isError ? (
+    <Error message={error?.data?.message || "Something went wrong"} />
+  ) : cartItems?.length > 0 ? (
+    cartItems?.map((item) => <CartItem key={item.id} item={item} />)
+  ) : (
+    <NotFound message="Product Not Added in Cart" />
+  );
 
   return (
     <div className="container mx-auto px-4">

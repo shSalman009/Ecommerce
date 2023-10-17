@@ -22,46 +22,41 @@ export default function CartItem({ item }) {
     };
   }, []);
 
-  const {
-    id,
-    name,
-    brand,
-    image,
-    price,
-    quantity,
-    available_quantity,
-    user_id,
-    product_id,
-  } = item || {};
+  const { name, brand, images, price, stock } = item.product || {};
+  const quantity = item.quantity;
 
   const [updateQuantity] = useUpdateQuantityMutation();
   const [removeCart] = useRemoveCartMutation();
 
   // update quantity
   const handleQuantityChange = (qty) => {
-    // check if quantity is less than 1 or greater than available quantity
-    if (qty > available_quantity) return;
+    // quantity can't be less than 0 or greater than stock
+    if (qty > stock) return;
 
     // if quantity is 0, remove from cart
     if (qty === 0) {
-      removeCart({ id, user_id, product_id });
+      removeCart(item.id);
       return;
     }
 
     // update quantity
-    updateQuantity({ id, quantity: qty });
+    updateQuantity({ id: item.id, quantity: qty });
   };
 
   // remove from cart
   const handleRemove = () => {
-    removeCart({ id, user_id, product_id });
+    removeCart(item.id);
   };
 
   return !isMobile ? (
     <div className="flex items-center hover:bg-gray-100 py-5">
       <div className="w-2/5 flex gap-4 pr-2">
         <div className="w-1/4">
-          <img className="w-full h-full object-cover" src={image} alt={name} />
+          <img
+            className="w-full h-full object-cover"
+            src={images[0]}
+            alt={name}
+          />
         </div>
 
         <div className="w-3/4 flex flex-col items-start justify-between flex-grow">
@@ -101,7 +96,7 @@ export default function CartItem({ item }) {
   ) : (
     <div className="flex gap-4 hover:bg-gray-100 py-5">
       <div className="xs:w-1/4 w-1/5">
-        <img className="" src={image} alt={name} />
+        <img className="" src={images[0]} alt={name} />
       </div>
       <div className="xs:w-3/4 w-4/5 py-2 flex flex-col justify-start">
         <span className="font-bold text-base two-line-text mb-4">{name}</span>

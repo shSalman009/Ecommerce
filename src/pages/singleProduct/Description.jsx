@@ -1,30 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
   useAddToCartMutation,
-  useGetCartByIdQuery,
+  useGetUserCartsQuery,
 } from "../../features/cart/CartApi";
 import { success } from "../../utils/Alert";
-import { encryptData } from "../../utils/Crypto";
-import { createUrlWithTitleAndId } from "../../utils/generateUrl";
 
 export default function Description({ product }) {
+  const { id, name, slug, brand, price } = product || {};
+
   // get user from redux store
-  const auth = useSelector((state) => state.auth) || {};
+  const { user } = useSelector((state) => state.auth) || {};
+  const userId = user?.id;
 
-  // destructure product
-  const { id, name, brand, price, specifications, quantity } = product || {};
-
-  // get current product from cart
-  const {
-    data: productInCart,
-    isLoading,
-    isSuccess,
-  } = useGetCartByIdQuery({
-    userId: auth?.user?.id,
-    productId: id,
+  // get user cart
+  const { data, isLoading, isSuccess } = useGetUserCartsQuery(userId, {
+    skip: !userId,
   });
+
+  // check if product is already added in cart
+  const [isProductInCart, setIsProductInCart] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && isSuccess) {
+      const cartItems = data.payload || [];
+
+      cartItems.forEach((item) => {
+        if (item.product.id === id) {
+          setIsProductInCart(true);
+        }
+      });
+    }
+  }, [isLoading, isSuccess, id, data]);
 
   // add to cart mutation
   const [
@@ -35,19 +43,13 @@ export default function Description({ product }) {
   const navigate = useNavigate();
   // add to cart
   const handleAddToCart = () => {
-    if (!auth?.user?.id) {
+    if (!user?.id) {
       navigate("/login");
       return;
     }
     const cartData = {
-      user_id: auth?.user?.id,
-      product_id: id,
+      product: id,
       quantity: 1,
-      available_quantity: quantity,
-      name,
-      brand,
-      price,
-      image: product?.image_urls[0],
     };
     addToCart(cartData);
   };
@@ -137,14 +139,14 @@ export default function Description({ product }) {
       </div>
       <div className="flex justify-start items-center gap-4 my-4">
         <Link
-          to={`/checkout/${createUrlWithTitleAndId(name, encryptData(id))}`}
+          to={`/checkout/${slug}`}
           className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-4 py-2 rounded-md"
         >
           Buy Now
         </Link>
 
         {/* Product is not added to cart yet */}
-        {isSuccess && productInCart.length === 0 && (
+        {!user || !isProductInCart ? (
           <button
             disabled={addingInCartLoading}
             onClick={handleAddToCart}
@@ -153,16 +155,16 @@ export default function Description({ product }) {
           >
             Add to Cart
           </button>
-        )}
+        ) : null}
         {/* Product is already added in cart */}
-        {isSuccess && productInCart.length === 1 && (
+        {user && isSuccess && isProductInCart ? (
           <Link
             to="/cart"
             className="text-blue-700 font-medium px-4 py-2 rounded-md border-2 border-blue-700"
           >
             View In Cart
           </Link>
-        )}
+        ) : null}
       </div>
     </div>
   );

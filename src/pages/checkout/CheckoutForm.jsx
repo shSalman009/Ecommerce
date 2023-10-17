@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import { useRemoveCartMutation } from "../../features/cart/CartApi";
+import { useClearCartMutation } from "../../features/cart/CartApi";
 import { useCreateOrderMutation } from "../../features/order/orderApi";
 import { error as errorAlert } from "../../utils/Alert";
 
-export default function CheckoutForm({ price, data, isCart }) {
+export default function CheckoutForm({ totalPrice, data, isCart }) {
   // get user
   const user = useSelector((state) => state.auth?.user) || null;
 
-  const shipping_cost = 10;
-  const total = price + shipping_cost;
+  const shippingCost = 10;
+  const total = totalPrice + shippingCost;
 
   // form states
   const [email, setEmail] = useState("");
@@ -23,71 +22,64 @@ export default function CheckoutForm({ price, data, isCart }) {
     cvc: "",
   });
   const [billing, setBilling] = useState({
-    address: "",
+    street: "",
+    city: "",
     state: "",
     zip: "",
   });
   const [shipping, setShipping] = useState({
-    address: "",
+    street: "",
+    city: "",
     state: "",
     zip: "",
   });
-  const [sameAsBilling, setSameAsBilling] = useState(false);
-  const [orderId, setorderId] = useState(null);
+
+  const [sameAsBilling, setSameAsBilling] = useState(true);
 
   // Queries and Mutations
-  const [removeCart] = useRemoveCartMutation();
+  const [clearCart] = useClearCartMutation();
 
-  const [createOrder, { isLoading, isSuccess, isError, error }] =
-    useCreateOrderMutation();
+  const [
+    createOrder,
+    { data: newOrder, isLoading, isSuccess, isError, error },
+  ] = useCreateOrderMutation();
 
   // Handle form submit to create order
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const id = uuidv4();
-    setorderId(id);
-
-    // order object
-    const order = {
-      id: id,
-      user_id: user?.id,
+    const orderData = {
       email,
-      shipping_cost,
-      order_total: total,
-      order_status: "pending",
-      timestamp: Date.now(),
-      payment: {
-        card_holder_name: cardHolder,
-        card_number: cardDetails.cardNumber,
-        expiry_date: cardDetails.expiryDate,
-        cvc: cardDetails.cvc,
-        payment_status: "paid",
+      shippingCost,
+      total,
+      paymentDetails: {
+        cardHolder,
+        cardNumber: cardDetails.cardNumber,
+        cardExpiration: cardDetails.expiryDate,
+        cardCVC: cardDetails.cvc,
       },
-      billing_address: {
-        street: billing.address,
+      billingAddress: {
+        street: billing.street,
+        city: billing.city,
         state: billing.state,
         zip: billing.zip,
       },
-      shipping_address: {
-        street: sameAsBilling ? billing.address : shipping.address,
+      shippingAddress: {
+        street: sameAsBilling ? billing.street : shipping.street,
+        city: sameAsBilling ? billing.city : shipping.city,
         state: sameAsBilling ? billing.state : shipping.state,
         zip: sameAsBilling ? billing.zip : shipping.zip,
       },
 
-      order_items: data.map((item) => {
-        const { id, quantity, price, name, image } = item;
+      products: data.map((item) => {
         return {
-          product_id: id,
-          name: name,
-          quantity: quantity,
-          price: price,
-          discount: 0,
-          image: image,
+          product: item.product.id,
+          quantity: item.quantity,
         };
       }),
     };
-    createOrder(order);
+
+    createOrder(orderData);
   };
 
   // Effect for handling successful or failed order submission
@@ -95,20 +87,13 @@ export default function CheckoutForm({ price, data, isCart }) {
   useEffect(() => {
     // remove cart and navigate to success page if order is created
     if (isSuccess) {
-      if (isCart) {
-        data?.map((cart) => {
-          removeCart({
-            id: cart?.id,
-            user_id: user?.id,
-            product_id: cart?.product_id,
-          });
-        });
-      }
-
+      clearCart(user?.id);
       resetForm();
-      navigate(`/order-success/${orderId}`);
+      navigate(`/order-success/${newOrder.payload.id}`);
     }
+  }, [isSuccess, navigate]);
 
+  useEffect(() => {
     // show error alert if error
     if (isError) {
       const message =
@@ -271,6 +256,8 @@ export default function CheckoutForm({ price, data, isCart }) {
             placeholder="CVC"
           />
         </div>
+
+        {/* billing address */}
         <label
           htmlFor="billing-address"
           className="mt-4 mb-2 block text-sm font-medium"
@@ -278,18 +265,18 @@ export default function CheckoutForm({ price, data, isCart }) {
           Billing Address
         </label>
         <div className="flex gap-2 flex-col sm:flex-row">
-          <div className="relative flex-shrink-0 sm:w-7/12">
+          <div className="relative flex-shrink-0 sm:w-6/12">
             <input
               required
               type="text"
-              id="billing-address"
-              name="billing-address"
-              value={billing.address}
+              id="billing-street"
+              name="billing-street"
+              value={billing.street}
               onChange={(e) =>
-                setBilling({ ...billing, address: e.target.value })
+                setBilling({ ...billing, street: e.target.value })
               }
               className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-              placeholder="Street Address"
+              placeholder="Street"
             />
             <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
               <img
@@ -299,6 +286,15 @@ export default function CheckoutForm({ price, data, isCart }) {
               />
             </div>
           </div>
+          <input
+            required
+            type="text"
+            name="billing-city"
+            value={billing.city}
+            onChange={(e) => setBilling({ ...billing, city: e.target.value })}
+            className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            placeholder="City"
+          />
           <input
             required
             type="text"
@@ -315,7 +311,7 @@ export default function CheckoutForm({ price, data, isCart }) {
             name="billing-zip"
             value={billing.zip}
             onChange={(e) => setBilling({ ...billing, zip: e.target.value })}
-            className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
             placeholder="ZIP"
           />
         </div>
@@ -336,7 +332,6 @@ export default function CheckoutForm({ price, data, isCart }) {
         {/* shipping address */}
         {!sameAsBilling && (
           <>
-            {" "}
             <label
               htmlFor="shipping-address"
               className="mt-4 mb-2 block text-sm font-medium"
@@ -344,23 +339,34 @@ export default function CheckoutForm({ price, data, isCart }) {
               Shipping Address
             </label>
             <div className="flex gap-2 flex-col sm:flex-row">
-              <div className="relative flex-shrink-0 sm:w-7/12">
+              <div className="relative flex-shrink-0 sm:w-6/12">
                 <input
                   required
                   type="text"
-                  id="shipping-address"
-                  name="shipping-address"
-                  value={shipping.address}
+                  id="shipping-street"
+                  name="shipping-street"
+                  value={shipping.street}
                   onChange={(e) =>
-                    setShipping({ ...shipping, address: e.target.value })
+                    setShipping({ ...shipping, street: e.target.value })
                   }
                   className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Street Address"
+                  placeholder="Street"
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                   <MdOutlineLocalShipping className="h-4 w-4 object-contain" />
                 </div>
               </div>
+              <input
+                required
+                type="text"
+                name="shipping-city"
+                value={shipping.city}
+                onChange={(e) =>
+                  setShipping({ ...shipping, city: e.target.value })
+                }
+                className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                placeholder="City"
+              />
               <input
                 required
                 type="text"
@@ -392,11 +398,11 @@ export default function CheckoutForm({ price, data, isCart }) {
         <div className="mt-6 border-t border-b py-2">
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-gray-900">Subtotal</p>
-            <p className="font-semibold text-gray-900">${price}.00</p>
+            <p className="font-semibold text-gray-900">${totalPrice}.00</p>
           </div>
           <div className="flex items-center justify-between">
             <p className="text-sm font-medium text-gray-900">Shipping</p>
-            <p className="font-semibold text-gray-900">${shipping_cost}.00</p>
+            <p className="font-semibold text-gray-900">${shippingCost}.00</p>
           </div>
         </div>
         <div className="mt-6 flex items-center justify-between">

@@ -4,35 +4,41 @@ import { FaRegUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { MdLogout } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../assets/react.svg";
-import { loggedOut } from "../features/auth/authSlice";
+import { useLogoutMutation } from "../features/auth/authApi";
 import { useGetUserCartsQuery } from "../features/cart/CartApi";
 import { useGetOrdersQuery } from "../features/order/orderApi";
 import Search from "./Search";
 
 export default function Topbar({ handleNavExtended }) {
-  const [quantity, setQuantity] = useState(0);
+  const [totalCarts, setTotalCarts] = useState(0);
   const [totalOrder, setTotalOrder] = useState(0);
 
   const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
   // get user cart items to calculate total quantity
-  const { data: cartItems } = useGetUserCartsQuery(auth?.user?.id);
+  const { data: cartData } = useGetUserCartsQuery(auth?.user?.id, {
+    skip: !auth?.user?.id,
+  });
+  const cartItems = cartData?.payload;
   useEffect(() => {
     if (cartItems) {
-      const totalQuantity = cartItems?.reduce(
+      const totalCarts = cartItems?.reduce(
         (acc, item) => acc + item.quantity,
         0
       );
-      setQuantity(totalQuantity);
+      setTotalCarts(totalCarts);
     }
   }, [cartItems]);
 
   // get user orders to calculate total order
-  const { data: orderItems } = useGetOrdersQuery(auth?.user?.id);
+  const { data: orderData } = useGetOrdersQuery(auth?.user?.id, {
+    skip: !auth?.user?.id,
+  });
+
+  const orderItems = orderData?.payload;
 
   useEffect(() => {
     if (orderItems) {
@@ -40,10 +46,10 @@ export default function Topbar({ handleNavExtended }) {
     }
   }, [orderItems]);
 
-  // user logout
+  const [logout] = useLogoutMutation();
+
   const handleLogOut = () => {
-    localStorage.removeItem("auth");
-    dispatch(loggedOut());
+    logout();
   };
 
   return (
@@ -70,7 +76,7 @@ export default function Topbar({ handleNavExtended }) {
 
               {auth?.user ? (
                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
-                  {quantity}
+                  {totalCarts}
                 </span>
               ) : null}
             </Link>{" "}

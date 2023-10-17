@@ -7,6 +7,7 @@ const initialState = {
     min: 0,
     max: 0,
   },
+  sort: "default",
 };
 
 // api slice
@@ -38,10 +39,21 @@ const filterSlice = createSlice({
     setPrice(state, action) {
       state.price = action.payload;
     },
+
+    // sort reducers
+    setSort(state, action) {
+      state.sort = action.payload;
+    },
   },
 });
 
 // export
-export const { addCategory, removeCategory, addBrand, removeBrand, setPrice } =
-  filterSlice.actions;
+export const {
+  addCategory,
+  removeCategory,
+  addBrand,
+  removeBrand,
+  setPrice,
+  setSort,
+} = filterSlice.actions;
 export default filterSlice.reducer;
