@@ -14,7 +14,7 @@ export default function SingleBlogPage() {
       {!isLoading && isError && <div>{error?.data?.message}</div>}
 
       {!isLoading && !isError && blog?.id && (
-        <div className="container mx-auto px-4 py-10">
+        <div className="custom-container">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             {blog?.title}
           </h2>

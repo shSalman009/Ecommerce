@@ -7,12 +7,14 @@ import Products from "./Products";
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="bg-slate-100">
       <Hero />
-      <Category />
-      <Products />
-      <DiscountProducts />
-      <Blogs />
+      <div className="custom-container space-y-10">
+        <Category />
+        <Products />
+        <DiscountProducts />
+        <Blogs />
+      </div>
     </div>
   );
 }

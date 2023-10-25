@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { FaRegIdCard } from "react-icons/fa";
+import { HiOutlineAtSymbol, HiOutlineCreditCard } from "react-icons/hi";
+import { ImSpinner2 } from "react-icons/im";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +11,8 @@ import { error as errorAlert } from "../../utils/Alert";
 
 export default function CheckoutForm({ totalPrice, data, isCart }) {
   // get user
-  const user = useSelector((state) => state.auth?.user) || null;
+  const { user } = useSelector((state) => state.auth) || {};
+  const userId = user?.id;
 
   const shippingCost = 10;
   const total = totalPrice + shippingCost;
@@ -34,7 +38,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
     zip: "",
   });
 
-  const [sameAsBilling, setSameAsBilling] = useState(true);
+  const [sameAsBilling, setSameAsBilling] = useState(false);
 
   // Queries and Mutations
   const [clearCart] = useClearCartMutation();
@@ -87,7 +91,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
   useEffect(() => {
     // remove cart and navigate to success page if order is created
     if (isSuccess) {
-      clearCart(user?.id);
+      clearCart(userId);
       resetForm();
       navigate(`/order-success/${newOrder.payload.id}`);
     }
@@ -125,10 +129,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0"
-    >
+    <form onSubmit={handleSubmit} className="mt-10 bg-gray-50 px-4 lg:mt-0">
       <p className="text-xl font-medium">Payment Details</p>
       <p className="text-gray-400">
         Complete your order by providing your payment details.
@@ -145,24 +146,11 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full input-icon"
             placeholder="your.email@gmail.com"
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-              />
-            </svg>
+            <HiOutlineAtSymbol className="h-4 w-4 text-gray-400" />
           </div>
         </div>
         <label
@@ -179,24 +167,11 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             name="card-holder"
             value={cardHolder}
             onChange={(e) => setCardHolder(e.target.value)}
-            className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full input-icon uppercase"
             placeholder="Your full name here"
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
-              />
-            </svg>
+            <FaRegIdCard className="h-4 w-4 text-gray-400" />
           </div>
         </div>
         <label
@@ -216,21 +191,11 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
               onChange={(e) =>
                 setCardDetails({ ...cardDetails, cardNumber: e.target.value })
               }
-              className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+              className="w-full input-icon"
               placeholder="xxxx-xxxx-xxxx-xxxx"
             />
             <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-              <svg
-                className="h-4 w-4 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z" />
-                <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z" />
-              </svg>
+              <HiOutlineCreditCard className="h-4 w-4 text-gray-400" />
             </div>
           </div>
           <input
@@ -241,7 +206,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             onChange={(e) =>
               setCardDetails({ ...cardDetails, expiryDate: e.target.value })
             }
-            className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full input"
             placeholder="MM/YY"
           />
           <input
@@ -252,7 +217,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             onChange={(e) =>
               setCardDetails({ ...cardDetails, cvc: e.target.value })
             }
-            className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-1/6 flex-shrink-0 input"
             placeholder="CVC"
           />
         </div>
@@ -275,7 +240,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
               onChange={(e) =>
                 setBilling({ ...billing, street: e.target.value })
               }
-              className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+              className="w-full input-icon"
               placeholder="Street"
             />
             <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -292,7 +257,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             name="billing-city"
             value={billing.city}
             onChange={(e) => setBilling({ ...billing, city: e.target.value })}
-            className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full input"
             placeholder="City"
           />
           <input
@@ -301,7 +266,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             name="billing-state"
             value={billing.state}
             onChange={(e) => setBilling({ ...billing, state: e.target.value })}
-            className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full input"
             placeholder="State"
           />
 
@@ -311,7 +276,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             name="billing-zip"
             value={billing.zip}
             onChange={(e) => setBilling({ ...billing, zip: e.target.value })}
-            className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full input"
             placeholder="ZIP"
           />
         </div>
@@ -322,10 +287,10 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
             type="checkbox"
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded0"
             value={sameAsBilling}
-            onChange={(e) => setSameAsBilling(!sameAsBilling)}
+            onChange={(e) => setSameAsBilling(e.target.checked)}
           />
           <label className="ml-2 text-sm font-medium text-gray-900">
-            Shipping address is same as my billing address
+            Same as billing address?
           </label>
         </div>
 
@@ -349,7 +314,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
                   onChange={(e) =>
                     setShipping({ ...shipping, street: e.target.value })
                   }
-                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                  className="w-full input-icon"
                   placeholder="Street"
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -364,7 +329,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
                 onChange={(e) =>
                   setShipping({ ...shipping, city: e.target.value })
                 }
-                className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                className="w-full input"
                 placeholder="City"
               />
               <input
@@ -375,7 +340,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
                 onChange={(e) =>
                   setShipping({ ...shipping, state: e.target.value })
                 }
-                className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                className="w-full input"
                 placeholder="State"
               />
 
@@ -387,7 +352,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
                 onChange={(e) =>
                   setShipping({ ...shipping, zip: e.target.value })
                 }
-                className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                className="flex-shrink-0 sm:w-1/6 input"
                 placeholder="ZIP"
               />
             </div>
@@ -413,7 +378,7 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
       <button
         type="submit"
         disabled={isLoading || data?.length === 0}
-        className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white flex justify-center items-center"
+        className="button-one mt-4"
       >
         {isLoading ? spinner : "Place Order"}
       </button>
@@ -422,22 +387,8 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
 }
 
 const spinner = (
-  <div>
-    <svg
-      className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-      viewBox="0 0 100 101"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-        fill="currentColor"
-      />
-      <path
-        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-        fill="currentFill"
-      />
-    </svg>
+  <div className="flex justify-center items-center">
+    <ImSpinner2 className="w-8 h-8 mr-2 animate-spin" />
     <span className="sr-only">Loading...</span>
   </div>
 );

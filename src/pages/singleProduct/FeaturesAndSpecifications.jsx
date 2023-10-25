@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function About({ product }) {
+export default function FeaturesAndSpecifications({ product }) {
   const { specifications, features } = product || {};
 
   return (

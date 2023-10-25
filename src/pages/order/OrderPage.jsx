@@ -17,7 +17,7 @@ export default function OrderPage() {
 
   return (
     <>
-      <div className="py-14 container mx-auto">
+      <div className="custom-container">
         {isLoading && <Loading />}
 
         {!isLoading && isError && (

@@ -18,7 +18,6 @@ export const productsApi = apiSlice.injectEndpoints({
         }
 
         const queryString = params.toString();
-        console.log(queryString);
         return `/products${queryString ? `?${queryString}` : ""}`;
       },
     }),

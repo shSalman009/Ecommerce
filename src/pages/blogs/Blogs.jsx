@@ -6,7 +6,7 @@ import { useGetBlogsQuery } from "../../features/blog/blogApi";
 import BlogCard from "./BlogCard";
 
 export default function Blogs() {
-  const { data, isLoading, isError, error, isSuccess } = useGetBlogsQuery();
+  const { data, isLoading, isError, error } = useGetBlogsQuery();
   const blogs = data?.payload;
 
   return (

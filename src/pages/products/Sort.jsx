@@ -28,7 +28,7 @@ export default function Sort({ handleFilterExtend }) {
   return (
     <div className="bg-white p-4 rounded-md mb-4 flex justify-between items-center">
       <div className="flex gap-4">
-        <h3 className="text-lg font-semibold text-gray-900 uppercase">Sort</h3>{" "}
+        <h3 className="title-two uppercase">Sort</h3>{" "}
         <button className="lg:hidden block" onClick={handleFilterExtend}>
           <BiFilterAlt size={25} />
         </button>
@@ -45,19 +45,19 @@ export default function Sort({ handleFilterExtend }) {
         </button>
 
         <div
-          className={`z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute inset-x-0 ${
+          className={`z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute inset-x-0 ${
             extend ? "block" : "hidden"
           }`}
         >
           <ul
-            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+            className="py-2 text-sm text-gray-700"
             aria-labelledby="dropdownDefaultButton"
           >
             {sortOptions.map((value, index) => (
               <li
                 onClick={() => handleSort(value)}
                 key={index}
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block px-4 py-2 hover:bg-gray-100"
               >
                 {value}
               </li>

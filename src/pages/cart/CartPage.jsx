@@ -11,10 +11,14 @@ import CartSummery from "./CartSummery";
 export default function CartPage() {
   // get user from redux store
   const { auth } = useSelector((state) => state) || {};
+  const userId = auth?.user?.id;
 
   // get user cart products from api
   const { data, isLoading, isError, error, isSuccess } = useGetUserCartsQuery(
-    auth?.user?.id
+    userId,
+    {
+      skip: !userId,
+    }
   );
   const cartItems = data?.payload;
 
@@ -45,26 +49,19 @@ export default function CartPage() {
   );
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="custom-container">
       <div className="flex xl:flex-row flex-col">
-        <div className="xl:w-3/4 w-full bg-white py-10">
+        <div className="xl:w-3/4 w-full bg-white">
           <div className="flex justify-between border-b pb-8">
-            <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-            <h2 className="font-semibold text-2xl">{totalCartItems} Items</h2>
+            <h1 className="title-one">Shopping Cart</h1>
+            <h2 className="title-one">{totalCartItems} Items</h2>
           </div>
+
           <div className="sm:flex hidden mt-10 mb-5">
-            <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">
-              Product Details
-            </h3>
-            <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
-              Quantity
-            </h3>
-            <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
-              Price
-            </h3>
-            <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
-              Total
-            </h3>
+            <h3 className="cart-table-title w-2/5">Product Details</h3>
+            <h3 className="cart-table-title text-center w-1/5">Quantity</h3>
+            <h3 className="cart-table-title text-center w-1/5">Price</h3>
+            <h3 className="cart-table-title text-center w-1/5">Total</h3>
           </div>
           {content}
 

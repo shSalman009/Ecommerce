@@ -33,11 +33,11 @@ export default function OrderItem({ order }) {
             <div className="flex items-end flex-col">
               <button
                 onClick={() => setModal(true)}
-                className="text-lg uppercase bg-gray-50 rounded-md px-4 py-2 cursor-pointer font-medium leading-6 text-gray-600"
+                className="button-two-outline"
               >
                 Cancel Order
               </button>{" "}
-              <p className="text-base font-medium leading-6 uppercase text-yellow-400">
+              <p className="text-base font-medium leading-6 uppercase text-yellow-500">
                 {status}
               </p>
             </div>
@@ -48,9 +48,7 @@ export default function OrderItem({ order }) {
         </div>
         <div className="mt-4 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
           <div className="flex flex-col justify-start items-start bg-gray-50 p-4 w-full">
-            <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
-              Customer’s Cart
-            </p>
+            <p className="title-two">Customer’s Cart</p>
             {products?.map((item, index) => {
               const { name, price, images, discount } = item?.product;
               const { quantity } = item;
@@ -75,9 +73,7 @@ export default function OrderItem({ order }) {
                   </div>
                   <div className="md:flex-row flex-col flex justify-between items-start w-full pb-4 space-y-4 md:space-y-0">
                     <div className="w-full flex flex-col justify-start items-start space-y-8">
-                      <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
-                        {name}
-                      </h3>
+                      <h3 className="title-one">{name}</h3>
                       <div className="flex justify-start items-start flex-col space-y-2">
                         <p className="text-sm leading-none text-gray-800">
                           <span className="text-gray-300">Style: </span> Italic

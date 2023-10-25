@@ -7,7 +7,7 @@ import {
 } from "../../features/cart/CartApi";
 import { success } from "../../utils/Alert";
 
-export default function Description({ product }) {
+export default function ProductDetails({ product }) {
   const { id, name, slug, brand, price } = product || {};
 
   // get user from redux store
@@ -66,9 +66,7 @@ export default function Description({ product }) {
       <h2 className="text-sm title-font text-gray-500 tracking-widest mb-1">
         {brand}
       </h2>
-      <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-        {name}
-      </h1>
+      <h1 className="title-one">{name}</h1>
       <div className="flex items-center mt-2.5 mb-5">
         <svg
           aria-hidden="true"
@@ -130,18 +128,9 @@ export default function Description({ product }) {
         <span className="title-font font-bold text-2xl text-gray-900">
           ${price}
         </span>
-        {/* <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-          Button
-        </button>
-        <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-          <MdOutlineFavoriteBorder size={25} />
-        </button> */}
       </div>
       <div className="flex justify-start items-center gap-4 my-4">
-        <Link
-          to={`/checkout/${slug}`}
-          className="bg-blue-700 border-2 border-blue-700 text-gray-200 font-medium px-4 py-2 rounded-md"
-        >
+        <Link to={`/checkout/${slug}`} className="button-two">
           Buy Now
         </Link>
 
@@ -151,17 +140,14 @@ export default function Description({ product }) {
             disabled={addingInCartLoading}
             onClick={handleAddToCart}
             type="button"
-            className="text-blue-700 font-medium px-4 py-2 rounded-md border-2 border-blue-700"
+            className="button-two-outline"
           >
             Add to Cart
           </button>
         ) : null}
         {/* Product is already added in cart */}
         {user && isSuccess && isProductInCart ? (
-          <Link
-            to="/cart"
-            className="text-blue-700 font-medium px-4 py-2 rounded-md border-2 border-blue-700"
-          >
+          <Link to="/cart" className="button-two-outline">
             View In Cart
           </Link>
         ) : null}

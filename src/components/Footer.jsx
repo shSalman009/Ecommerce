@@ -11,8 +11,8 @@ import apple_pay from "../assets/Apple pay.png";
 import mastercard from "../assets/Mastercard.png";
 import paypal from "../assets/Paypal.png";
 import visa from "../assets/Visa.png";
-
 import img from "../assets/react.svg";
+import { footerData } from "../data";
 
 export default function Footer() {
   return (
@@ -35,13 +35,13 @@ export default function Footer() {
               <div className="relative w-full">
                 <label
                   htmlFor="email"
-                  className="hidden mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="hidden mb-2 text-sm font-medium text-gray-900"
                 >
                   Email address
                 </label>
                 <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                   <svg
-                    className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                    className="w-5 h-5 text-gray-500"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ export default function Footer() {
                   </svg>
                 </div>
                 <input
-                  className="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:rounded-none sm:rounded-l-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:rounded-none sm:rounded-l-lg focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Enter your email"
                   type="email"
                   id="email"
@@ -60,18 +60,18 @@ export default function Footer() {
               </div>
               <div>
                 <button
-                  type="submit"
-                  className="py-3 px-5 w-full text-sm font-medium text-center text-white rounded-lg border cursor-pointer bg-primary-700 border-primary-600 sm:rounded-none sm:rounded-r-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  type="button"
+                  className="py-3 px-5 w-full text-sm font-medium text-center text-white rounded-lg border cursor-pointer bg-primary-700 border-primary-600 sm:rounded-none sm:rounded-r-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300"
                 >
                   Subscribe
                 </button>
               </div>
             </div>
-            <div className="mx-auto max-w-screen-sm text-sm text-left text-gray-500 newsletter-form-footer dark:text-gray-300">
+            <div className="mx-auto max-w-screen-sm text-sm text-left text-gray-500 newsletter-form-footer">
               We care about the protection of your data.{" "}
               <a
                 href="#"
-                className="font-medium text-primary-600 dark:text-primary-500 hover:underline"
+                className="font-medium text-primary-600 hover:underline"
               >
                 Read our Privacy Policy
               </a>
@@ -111,38 +111,23 @@ export default function Footer() {
             </div>
 
             <div className="flex mt-6 space-x-2">
-              <a
-                href="#"
-                className="text-gray-300 hover:text-gray-100 dark:hover:text-white"
-              >
+              <a href="#" className="text-gray-300 hover:text-gray-100">
                 <BsFacebook />
                 <span className="sr-only">Facebook page</span>
               </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-gray-100 dark:hover:text-white"
-              >
+              <a href="#" className="text-gray-300 hover:text-gray-100">
                 <BsInstagram />
                 <span className="sr-only">Instagram page</span>
               </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-gray-100 dark:hover:text-white"
-              >
+              <a href="#" className="text-gray-300 hover:text-gray-100">
                 <BsTwitter />
                 <span className="sr-only">Twitter page</span>
               </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-gray-100 dark:hover:text-white"
-              >
+              <a href="#" className="text-gray-300 hover:text-gray-100">
                 <BsGithub />
                 <span className="sr-only">GitHub account</span>
               </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-gray-100 dark:hover:text-white"
-              >
+              <a href="#" className="text-gray-300 hover:text-gray-100">
                 <BsDribbble />
                 <span className="sr-only">Dribbble account</span>
               </a>
@@ -150,117 +135,31 @@ export default function Footer() {
           </div>
 
           <div className="md:w-8/12 w-full grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 lg:grid-cols-4">
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-                Company
-              </h2>
-              <ul className="text-gray-400 dark:text-gray-400 font-medium">
-                <li className="mb-4">
-                  <a href="#" className=" hover:underline">
-                    About
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Careers
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Brand Center
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Blog
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-                Help center
-              </h2>
-              <ul className="text-gray-400 dark:text-gray-400 font-medium">
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Discord Server
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Twitter
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Facebook
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-                Legal
-              </h2>
-              <ul className="text-gray-400 dark:text-gray-400 font-medium">
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Licensing
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Terms &amp; Conditions
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-                Download
-              </h2>
-              <ul className="text-gray-400 dark:text-gray-400 font-medium">
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    iOS
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Android
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Windows
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    MacOS
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {footerData.map((data) => (
+              <div key={data.title}>
+                <h2 className="mb-6 text-sm font-semibold text-white uppercase">
+                  {data.title}
+                </h2>
+
+                <ul className="text-gray-400 font-medium">
+                  {data.links.map((link) => (
+                    <li key={link.name} className="mb-4">
+                      <a href={link.url} className=" hover:underline">
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Bottom Footer */}
 
-        <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 my-4" />
+        <hr className="border-gray-200 sm:mx-auto my-4" />
         <div className="sm:flex sm:items-center sm:justify-between pb-4">
-          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          <span className="text-sm text-gray-500 sm:text-center">
             © 2023{" "}
             <a href="https://shahsalmanahmed.com/" className="hover:underline">
               Salman Ahmed

@@ -30,8 +30,8 @@ export default function Search() {
         name: value,
       })
     );
-
-    setProducts(res?.data?.payload);
+    const result = res?.data?.payload || [];
+    setProducts(result);
   };
 
   const handleSearch = debounceHandler(doSearch, 1000);
@@ -60,7 +60,7 @@ export default function Search() {
               handleSearch(e.target.value);
             }}
             type="text"
-            className="w-full rounded-sm rounded-r-none px-2 py-2.5 focus:outline-none bg-slate-200"
+            className="w-full rounded-r-none px-2 py-2.5 focus:outline-none bg-slate-200"
             placeholder="Search..."
           />
           <button className="bg-indigo-600 text-gray-100 px-6 text-base font-medium py-2 rounded-r-sm">
@@ -72,7 +72,7 @@ export default function Search() {
       {/* Search Result */}
       {products && search && focused && (
         <div className="absolute inset-x-0 top-12 rounded-md shadow-lg bg-white max-h-96 overflow-y-scroll custom-scrollbar">
-          {products?.length ? (
+          {products?.length > 0 ? (
             products.map((product) => {
               const { id, images, name, slug, price } = product || {};
 

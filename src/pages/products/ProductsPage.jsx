@@ -17,7 +17,7 @@ export default function ProductsPage() {
       <Backdrop show={filterExtend} onClick={handleFilterExtend} />
 
       <div className="bg-slate-100">
-        <div className="container mx-auto px-4 py-10 flex l gap-4">
+        <div className="custom-container flex l gap-4">
           <div
             className={`lg:bg-transparent bg-white lg:shadow-none shadow-md lg:w-60 w-80 lg:static lg:h-auto h-screen overflow-y-scroll fixed inset-y-0 lg:z-0 z-50 ${
               filterExtend ? "left-0" : "-left-80"

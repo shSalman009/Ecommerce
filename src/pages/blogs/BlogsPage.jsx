@@ -4,7 +4,7 @@ import Blogs from "./Blogs";
 export default function BlogsPage() {
   return (
     <div className="bg-slate-100">
-      <div className="container mx-auto px-4 py-10">
+      <div className="custom-container">
         <Blogs />
       </div>
     </div>

@@ -11,8 +11,8 @@ export default function Checkout() {
     useGetCheckoutProduct(productSlug);
 
   return (
-    <div className="container mx-auto">
-      <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+    <div className="custom-container">
+      <div className="grid sm:px-10 grid-cols-1 xl:grid-cols-2 xl:px-20 2xl:px-32 xl:items-start">
         <OrderSummary
           data={data}
           totalPrice={totalPrice}

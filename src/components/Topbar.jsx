@@ -16,11 +16,12 @@ export default function Topbar({ handleNavExtended }) {
   const [totalCarts, setTotalCarts] = useState(0);
   const [totalOrder, setTotalOrder] = useState(0);
 
-  const auth = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth) || {};
+  const userId = user?.id;
 
   // get user cart items to calculate total quantity
-  const { data: cartData } = useGetUserCartsQuery(auth?.user?.id, {
-    skip: !auth?.user?.id,
+  const { data: cartData } = useGetUserCartsQuery(userId, {
+    skip: !userId,
   });
   const cartItems = cartData?.payload;
   useEffect(() => {
@@ -34,8 +35,8 @@ export default function Topbar({ handleNavExtended }) {
   }, [cartItems]);
 
   // get user orders to calculate total order
-  const { data: orderData } = useGetOrdersQuery(auth?.user?.id, {
-    skip: !auth?.user?.id,
+  const { data: orderData } = useGetOrdersQuery(userId, {
+    skip: !userId,
   });
 
   const orderItems = orderData?.payload;
@@ -74,7 +75,7 @@ export default function Topbar({ handleNavExtended }) {
             <Link to="/cart" className="relative">
               <HiOutlineShoppingCart size={25} />
 
-              {auth?.user ? (
+              {userId ? (
                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
                   {totalCarts}
                 </span>
@@ -83,7 +84,7 @@ export default function Topbar({ handleNavExtended }) {
             <Link to="/order" className="relative">
               <BiShoppingBag size={25} />
 
-              {auth?.user ? (
+              {userId ? (
                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-gray-100 text-xs font-medium">
                   {totalOrder}
                 </span>
@@ -91,7 +92,7 @@ export default function Topbar({ handleNavExtended }) {
             </Link>
           </div>
           {/* User */}
-          {auth?.user ? (
+          {userId ? (
             <div className="px-4 text-sm text-gray-100">
               <MdLogout
                 size={25}

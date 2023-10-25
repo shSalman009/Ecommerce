@@ -71,10 +71,10 @@ export default function PriceFilter() {
           key={price.id}
           onClick={() => handlePriceRange(price?.id, price?.value)}
           type="button"
-          className={`flex-grow py-2 px-4 text-sm font-medium focus:outline-none rounded-lg border  focus:z-10 ${
+          className={`flex-grow py-2 px-4 text-sm font-medium focus:outline-none rounded-md border  focus:z-10 ${
             selected === price?.id
-              ? "bg-blue-700 text-white border-transparent hover:bg-blue-800"
-              : "bg-white text-gray-900 dark:bg-gray-800 border-gray-200 hover:bg-gray-100 hover:text-blue-700 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              ? "bg-green-600 text-white border-transparent hover:bg-green-700"
+              : "bg-white text-gray-900 border-gray-200 hover:bg-gray-100"
           }`}
         >
           {price?.name}

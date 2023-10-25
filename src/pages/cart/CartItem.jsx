@@ -38,8 +38,6 @@ export default function CartItem({ item }) {
       removeCart(item.id);
       return;
     }
-
-    // update quantity
     updateQuantity({ id: item.id, quantity: qty });
   };
 

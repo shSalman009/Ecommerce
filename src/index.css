@@ -51,3 +51,42 @@
   -webkit-line-clamp: 2; /* Limit to 2 lines */
   overflow: hidden;
 }
+
+/* Tailwind Styles */
+/* Global */
+.custom-container {
+  @apply container mx-auto px-4 py-10;
+}
+
+/* Buttons */
+.button-one {
+  @apply inline-block text-center rounded-md bg-indigo-500 hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full font-semibold;
+}
+.button-two {
+  @apply inline-block text-center rounded-md bg-indigo-500 hover:bg-indigo-600 hover:border-indigo-600 border-2 border-indigo-500 text-white font-medium px-3 py-1.5 uppercase;
+}
+.button-two-outline {
+  @apply inline-block text-center rounded-md text-indigo-500 hover:text-indigo-600 font-medium px-3 py-1.5 uppercase border-2 border-indigo-500 hover:border-indigo-600;
+}
+
+/* Input style */
+.input {
+  @apply rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500;
+}
+
+.input-icon {
+  @apply rounded-md border border-gray-200 pr-4 pl-11 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500;
+}
+
+/* Titles */
+.title-one {
+  @apply mb-2 text-2xl font-semibold tracking-tight text-gray-800;
+}
+.title-two {
+  @apply mb-2 text-xl font-semibold tracking-tight text-gray-800;
+}
+
+/* Cart */
+.cart-table-title {
+  @apply font-semibold text-gray-600 text-xs uppercase;
+}

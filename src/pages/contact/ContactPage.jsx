@@ -29,7 +29,7 @@ export default function ContactPage() {
 
   return (
     <div>
-      <div className="container mx-auto px-4 py-10">
+      <div className="custom-container">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
           <p className="text-gray-700 text-xl">
@@ -78,7 +78,7 @@ export default function ContactPage() {
             <div>
               <label
                 htmlFor="name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Name
               </label>
@@ -86,7 +86,7 @@ export default function ContactPage() {
                 type="text"
                 name="user_name"
                 id="name"
-                className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                className="w-full input"
                 placeholder="John Doe"
                 required
               />
@@ -94,7 +94,7 @@ export default function ContactPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Your email
               </label>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                 type="email"
                 name="user_email"
                 id="email"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                className="w-full input"
                 placeholder="name@flowbite.com"
                 required
               />
@@ -110,7 +110,7 @@ export default function ContactPage() {
             <div className="sm:col-span-2">
               <label
                 htmlFor="message"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Your message
               </label>
@@ -118,14 +118,11 @@ export default function ContactPage() {
                 id="message"
                 rows="6"
                 name="message"
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className="w-full input"
                 placeholder="Leave a comment..."
               ></textarea>
             </div>
-            <button
-              type="submit"
-              className="py-3 px-5 text-sm font-medium text-center text-gray-800 border bg-gray-200 rounded-lg"
-            >
+            <button type="submit" className="button-one">
               Send message
             </button>
           </form>

@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
 import { useGetProductQuery } from "../../features/products/productsApi";
-import About from "./About";
 import Carousel from "./Carousel";
-import Description from "./Description";
+import FeaturesAndSpecifications from "./FeaturesAndSpecifications";
+import ProductDetails from "./ProductDetails";
 
 export default function SingleProductPage() {
   const { slug } = useParams();
@@ -23,13 +23,13 @@ export default function SingleProductPage() {
 
       {!isLoading && !isError && product?.id && (
         <div className="text-gray-600 body-font overflow-hidden">
-          <div className="container px-5 pb-24 mx-auto">
+          <div className="custom-container">
             <div className="lg:w-4/5 w-full mx-auto justify-center items-center flex flex-wrap pb-20">
               <Carousel images={images} />
-              <Description product={product} />
+              <ProductDetails product={product} />
             </div>
             <div className="w-full flex">
-              <About product={product} />
+              <FeaturesAndSpecifications product={product} />
             </div>
           </div>
         </div>
