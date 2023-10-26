@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { SpinnerButton } from "../../components/Buttons";
 import Error from "../../components/Error";
 import { useRegisterMutation } from "../../features/auth/authApi";
 
@@ -121,16 +122,21 @@ export default function RegisterPage() {
 
               {validationError ? <Error message={validationError} /> : null}
               {isError && error && <Error message={error?.data?.message} />}
-              <button disabled={isLoading} type="submit" className="button-one">
-                Create an account
-              </button>
+
+              <SpinnerButton
+                isLoading={isLoading}
+                disabled={isLoading}
+                type="submit"
+                text="Register"
+              />
+
               <p className="text-sm font-light text-gray-500">
                 Already have an account?{" "}
                 <Link
                   to="/login"
                   className="font-medium text-primary-600 hover:underline"
                 >
-                  Login here
+                  Log in here
                 </Link>
               </p>
             </form>

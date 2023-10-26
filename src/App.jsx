@@ -13,11 +13,13 @@ import CategoryPage from "./pages/category/CategoryPage";
 import CategoryProducts from "./pages/categoryProducts/CategoryProducts";
 import Checkout from "./pages/checkout/Checkout";
 import ContactPage from "./pages/contact/ContactPage";
+import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/login/LoginPage";
 import OrderPage from "./pages/order/OrderPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import RegisterPage from "./pages/register/RegisterPage";
+import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import SingleBlogPage from "./pages/singleBlog/SingleBlogPage";
 import SingleProductPage from "./pages/singleProduct/SingleProductPage";
 import SuccessPaymentPage from "./pages/success/SuccessPaymentPage";
@@ -39,6 +41,11 @@ export default function App() {
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route
+              path="/reset-password/:token"
+              element={<ResetPasswordPage />}
+            />
           </Route>
 
           {/* Private Routes */}

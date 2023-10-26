@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaRegIdCard } from "react-icons/fa";
 import { HiOutlineAtSymbol, HiOutlineCreditCard } from "react-icons/hi";
-import { ImSpinner2 } from "react-icons/im";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SpinnerButton } from "../../components/Buttons";
 import { useClearCartMutation } from "../../features/cart/CartApi";
 import { useCreateOrderMutation } from "../../features/order/orderApi";
 import { error as errorAlert } from "../../utils/Alert";
@@ -375,20 +375,14 @@ export default function CheckoutForm({ totalPrice, data, isCart }) {
           <p className="text-2xl font-semibold text-gray-900">${total}.00</p>
         </div>
       </div>
-      <button
-        type="submit"
+
+      <SpinnerButton
+        isLoading={isLoading}
         disabled={isLoading || data?.length === 0}
-        className="button-one mt-4"
-      >
-        {isLoading ? spinner : "Place Order"}
-      </button>
+        type="submit"
+        text="Place Order"
+        className="mt-4"
+      />
     </form>
   );
 }
-
-const spinner = (
-  <div className="flex justify-center items-center">
-    <ImSpinner2 className="w-8 h-8 mr-2 animate-spin" />
-    <span className="sr-only">Loading...</span>
-  </div>
-);
